@@ -16,7 +16,7 @@
 
 	You should have received a copy of the GPL along with this
 	program. If not, go to http://www.gnu.org/licenses/gpl.html
-	or write to the Free Software Foundation, Inc.,  
+	or write to the Free Software Foundation, Inc.,
 	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 	==============================================================================
  */
@@ -40,10 +40,10 @@ public:
 	const static int MAX_VOICES = 6;
 
 	VoiceManager(
-        float sampleRate, 
-        LfoHandler1 *lfoHandler1, 
-        LfoHandler2 *lfoHandler2, 
-        VelocityHandler *velocityHandler, 
+        float sampleRate,
+        LfoHandler1 *lfoHandler1,
+        LfoHandler2 *lfoHandler2,
+        VelocityHandler *velocityHandler,
         PitchwheelHandler *pitchwheelHandler,
         EnvelopeEditorHandler *envelopeEditorHandler)
 	{
@@ -60,7 +60,7 @@ public:
 		monoNoteStack.clear();
 	}
 
-	~VoiceManager() 
+	~VoiceManager()
 	{
         for (int i = 0; i < MAX_VOICES; i++) delete voices[i];
 		delete[] voices;
@@ -87,6 +87,7 @@ public:
 
 	void setNumberOfVoices(int numberOfVoices)
 	{
+		std::cout << "in setNumberOfVoices = " << numberOfVoices << std::endl;
 		this->numberOfVoices = numberOfVoices;
 		playingNotes.clear();
 	}
@@ -112,10 +113,10 @@ public:
 	void deleteSilentVoices()
 	{
 		vector<SynthVoice*>::iterator pos = playingNotes.begin();
-		while (pos != playingNotes.end()) 
-		{	
+		while (pos != playingNotes.end())
+		{
 			SynthVoice* synthVoice = *pos;
-			if (!synthVoice->isNotePlaying()) 
+			if (!synthVoice->isNotePlaying())
 			{
 				pos = playingNotes.erase(pos);
 			}
@@ -144,9 +145,9 @@ public:
 		vector<int>::iterator it= monoNoteStack.begin();
 		while (it != monoNoteStack.end())
 		{
-			if (*it == note) 
+			if (*it == note)
 			{
-				monoNoteStack.erase(it); 
+				monoNoteStack.erase(it);
 				break;
 			}
 			++it;
@@ -160,8 +161,8 @@ public:
 			{
 				voices[0]->setNoteOn(monoNoteStack.at(0), true, 0.0f);
 			}
-		} 
-		else 
+		}
+		else
 		{
 			voices[0]->setNoteOff(note);
 		}
@@ -170,10 +171,10 @@ public:
 	void setNoteOffPoly(int note)
 	{
 		vector<SynthVoice*>::iterator it= playingNotes.begin();
-		while (it != playingNotes.end()) 
-		{	
+		while (it != playingNotes.end())
+		{
 			SynthVoice* synthVoice = *it;
-			if (synthVoice->noteNumber == note) 
+			if (synthVoice->noteNumber == note)
 			{
 				synthVoice->setNoteOff(note);
 				break;
@@ -197,10 +198,10 @@ private:
 	{
 		// Try to return same note
 		vector<SynthVoice*>::iterator it= playingNotes.begin();
-		while (it != playingNotes.end()) 
-		{	
+		while (it != playingNotes.end())
+		{
 			SynthVoice* synthVoice = *it;
-			if (synthVoice->noteNumber == note) 
+			if (synthVoice->noteNumber == note)
 			{
 				return synthVoice;
 			}
@@ -234,4 +235,4 @@ private:
 		return synthVoice;
 	}
 };
-#endif 
+#endif
