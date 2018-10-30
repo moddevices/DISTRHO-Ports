@@ -16,7 +16,7 @@
 
 	You should have received a copy of the GPL along with this
 	program. If not, go to http://www.gnu.org/licenses/gpl.html
-	or write to the Free Software Foundation, Inc.,  
+	or write to the Free Software Foundation, Inc.,
 	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 	==============================================================================
  */
@@ -42,7 +42,7 @@
 #include "../EnvelopeEditor/EnvelopeEditor.h"
 #include "../EnvelopeEditor/EnvelopeEditorHandler.h"
 
-class SynthEngine 
+class SynthEngine
 {
 private:
     float sampleRate;
@@ -73,7 +73,7 @@ private:
 	AudioUtils audioUtils;
 
 public:
-	SynthEngine(float sampleRate) 
+	SynthEngine(float sampleRate)
 	{
 		initialize(sampleRate);
 	}
@@ -178,7 +178,9 @@ public:
 
 	void setNumberOfVoices(float numberOfVoices)
 	{
-		this->voiceManager->setNumberOfVoices(audioUtils.calcComboBoxValue(numberOfVoices, VOICES));
+    int voiceInt = (int)numberOfVoices;
+    this->voiceManager->setNumberOfVoices(voiceInt);
+		// this->voiceManager->setNumberOfVoices(audioUtils.calcComboBoxValue(numberOfVoices, VOICES));
 	}
 
 	void setNoteOn(int note, float velocity)
@@ -857,10 +859,10 @@ public:
 			    float phase = lfoInc * samplesPerBeat * samplePosition;
 			    lfoHandler2->setHostPhase(phase - floorf(phase));
             }
-		} 
+		}
     }
 
-	void process(float *sampleL, float *sampleR) 
+	void process(float *sampleL, float *sampleR)
 	{
         float denormalNoise = this->denormalNoise->getNextSample() * 0.00000001f;
 		*sampleL = denormalNoise;
@@ -905,4 +907,3 @@ public:
 	}
 };
 #endif
-
