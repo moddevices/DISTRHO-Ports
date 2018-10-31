@@ -901,9 +901,9 @@ public:
 		*sampleR *= volume;
 
         // stereo master fx
-        this->delayEngine->process(sampleL, sampleR);
-        this->chorusEngine->process(sampleL, sampleR);
-        this->reverbEngine->process(sampleL, sampleR);
+        // this->delayEngine->process(sampleL, sampleR);
+        // this->chorusEngine->process(sampleL, sampleR);
+        // this->reverbEngine->process(sampleL, sampleR);
 	}
 };
 #endif

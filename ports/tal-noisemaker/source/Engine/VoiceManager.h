@@ -37,7 +37,7 @@ private:
 	vector<int> monoNoteStack;
 
 public:
-	const static int MAX_VOICES = 6;
+	const static int MAX_VOICES = 4;
 
 	VoiceManager(
         float sampleRate,
