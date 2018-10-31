@@ -179,8 +179,8 @@ public:
 	void setNumberOfVoices(float numberOfVoices)
 	{
     int voiceInt = (int)numberOfVoices;
-    this->voiceManager->setNumberOfVoices(voiceInt);
-		// this->voiceManager->setNumberOfVoices(audioUtils.calcComboBoxValue(numberOfVoices, VOICES));
+    // this->voiceManager->setNumberOfVoices(voiceInt);
+		this->voiceManager->setNumberOfVoices(audioUtils.calcComboBoxValue(numberOfVoices, VOICES));
 	}
 
 	void setNoteOn(int note, float velocity)

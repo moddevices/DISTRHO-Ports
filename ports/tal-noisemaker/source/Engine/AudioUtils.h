@@ -296,7 +296,7 @@ public:
 
         switch(param)
         {
-        case VOICES: numItems = 6; break;
+        case VOICES: numItems = 4; break;
         case PORTAMENTOMODE: numItems = 3; break;
         case LFO1DESTINATION: numItems = 8; break;
         case LFO2DESTINATION: numItems = 8; break;
@@ -312,4 +312,3 @@ public:
     }
 };
 #endif
-
