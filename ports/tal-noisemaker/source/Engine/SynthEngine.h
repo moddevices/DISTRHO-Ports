@@ -50,25 +50,36 @@ private:
 	float volume;
 	float cutoff;
 
-	VoiceManager* voiceManager;
-	ParamChangeUtil *cutoffFiltered;
-	LfoHandler1 *lfoHandler1;
-	LfoHandler2 *lfoHandler2;
+	// VoiceManager* voiceManager;
+  ScopedPointer<VoiceManager> voiceManager;
+	// ParamChangeUtil *cutoffFiltered;
+  ScopedPointer<ParamChangeUtil> cutoffFiltered;
+  // LfoHandler1 *lfoHandler1;
+  ScopedPointer<LfoHandler1> lfoHandler1;
+  // LfoHandler2 *lfoHandler2;
+  ScopedPointer<LfoHandler2> lfoHandler2;
+  // PitchwheelHandler *pitchwheelHandler;
+  ScopedPointer<PitchwheelHandler> pitchwheelHandler;
+  // VelocityHandler *velocityHandler;
+  ScopedPointer<VelocityHandler> velocityHandler;
+  // HighPass *highPass;
+  ScopedPointer<HighPass> highPass;
+  // StereoPan *stereoPan;
+  ScopedPointer<StereoPan> stereoPan;
 
-    PitchwheelHandler *pitchwheelHandler;
-    VelocityHandler *velocityHandler;
+  // DelayEngine *delayEngine;
+  ScopedPointer<DelayEngine> delayEngine;
+  // ChorusEngine *chorusEngine;
+  ScopedPointer<ChorusEngine> chorusEngine;
+  // ReverbEngine *reverbEngine;
+  ScopedPointer<ReverbEngine> reverbEngine;
+  // EnvelopeEditor *envelopeEditor;
+  ScopedPointer<EnvelopeEditor> envelopeEditor;
+  // EnvelopeEditorHandler *envelopeEditorHandler;
+  ScopedPointer<EnvelopeEditorHandler> envelopeEditorHandler;
 
-    HighPass *highPass;
-    StereoPan *stereoPan;
-
-    DelayEngine *delayEngine;
-    ChorusEngine *chorusEngine;
-    ReverbEngine *reverbEngine;
-
-    EnvelopeEditor *envelopeEditor;
-    EnvelopeEditorHandler *envelopeEditorHandler;
-
-    OscNoise *denormalNoise;
+  // OscNoise *denormalNoise;
+  ScopedPointer<OscNoise> denormalNoise;
 
 	AudioUtils audioUtils;
 
@@ -80,20 +91,20 @@ public:
 
 	~SynthEngine()
 	{
-		delete cutoffFiltered;
-		delete voiceManager;
-        delete chorusEngine;
-        delete reverbEngine;
-        delete envelopeEditor;
-        delete envelopeEditorHandler;
-        delete highPass;
-        delete stereoPan;
-        delete denormalNoise;
-        delete lfoHandler1;
-        delete lfoHandler2;
-        delete pitchwheelHandler;
-        delete velocityHandler;
-        delete delayEngine;
+		// delete cutoffFiltered;
+		// delete voiceManager;
+    // delete chorusEngine;
+    // delete reverbEngine;
+    // delete envelopeEditor;
+    // delete envelopeEditorHandler;
+    // delete highPass;
+    // delete stereoPan;
+    // delete denormalNoise;
+    // delete lfoHandler1;
+    // delete lfoHandler2;
+    // delete pitchwheelHandler;
+    // delete velocityHandler;
+    // delete delayEngine;
 	}
 
 private:

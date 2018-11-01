@@ -16,7 +16,7 @@ governing rights and limitations.
 
 You should have received a copy of the GPL along with this
 program. If not, go to http://www.gnu.org/licenses/gpl.html
-or write to the Free Software Foundation, Inc.,  
+or write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 ==============================================================================
 */
@@ -56,6 +56,9 @@ private:
 
     bool isPlaying;
 
+    SplinePoint *start;
+    SplinePoint *end;
+
 public:
     EnvelopeEditor(float sampleRate)
     {
@@ -84,6 +87,11 @@ public:
         stopTimer();
         this->splineDataBuffer.clear();
         this->points.clear();
+
+        delete start;
+        start = nullptr;
+        delete end;
+        end = nullptr;
     }
 
 private:
@@ -92,7 +100,7 @@ private:
     {
         float position = x * (splineDataBuffer.size() - 1);
         int positionInt0 = (int)position;
-        
+
         if (positionInt0 >= splineDataBuffer.size())
         {
             positionInt0 -= splineDataBuffer.size();
@@ -131,11 +139,11 @@ private:
                 float scaleX = (x - points[i]->getX()) * 1.0f / deltaX;
 
                 Point<float> result = su.PointOnCubicBezier(
-                    scaleX, 
-                    points[i]->getCenterPosition(), 
-                    points[i]->getControlPointRight(), 
+                    scaleX,
+                    points[i]->getCenterPosition(),
+                    points[i]->getControlPointRight(),
                     points[i + 1]->getControlPointLeft(),
-                    points[i + 1]->getCenterPosition()); 
+                    points[i + 1]->getCenterPosition());
 
                 if (result.getY() > 1.0f) result.setY(1.0f);
                 if (result.getY() < 0.0f) result.setY(0.0f);
@@ -160,7 +168,7 @@ private:
             x = i * phaseDelta;
             this->splineDataBuffer.add(this->getEnvleopeValueCalculated(x));
         }
-        
+
         this->dirty = false;
     }
 
@@ -171,8 +179,12 @@ public:
         //const ScopedLock myScopedLock (myCriticalSectionBuffer);
         points.clear();
 
-        SplinePoint *start = new SplinePoint(Point<float>(0.0f, 0.5f));
-        SplinePoint *end = new SplinePoint(Point<float>(1.0f, 0.5f));
+        start = new SplinePoint(Point<float>(0.0f, 0.5f));
+        end = new SplinePoint(Point<float>(1.0f, 0.5f));
+        // ScopedPointer<SplinePoint> start;
+        // start = new SplinePoint(Point<float>(0.0f, 0.5f));
+        // ScopedPointer<SplinePoint> end;
+        // end = new SplinePoint(Point<float>(1.0f, 0.5f));
 
         start->setStartPoint(true);
         end->setEndPoint(true);
@@ -240,7 +252,7 @@ public:
             const ScopedLock myScopedLock (myCriticalSectionBuffer);
             this->calculateBuffer();
         }
-        
+
         startTimer(TIMER_INTERVALL);
     }
 
@@ -357,7 +369,7 @@ public:
     {
         if (this->isPlaying)
         {
-            this->actualPhase += this->getPhaseDelta(); 
+            this->actualPhase += this->getPhaseDelta();
             if (this->actualPhase >= 1.0f)
             {
                 this->actualPhase -= 1.0f;
@@ -421,7 +433,7 @@ public:
 	    return 60.0f / bpm * sampleRate;
     }
 
-    float getPhaseDelta() 
+    float getPhaseDelta()
     {
         return 1.0f / (this->samplesPerBeat * this->denominator) * speedFactor / this->numerator;
     }
