@@ -285,27 +285,6 @@ void TalCore::setParameter (int index, float newValue)
         case RINGMODULATION:
             engine->setRingmodulation(newValue);
             break;
-        case CHORUS1ENABLE:
-            engine->setChorus(newValue > 0.0f, getParameter(CHORUS2ENABLE) > 0.0f);
-            break;
-        case CHORUS2ENABLE:
-            engine->setChorus(getParameter(CHORUS1ENABLE) > 0.0f, newValue > 0.0f);
-            break;
-        case REVERBWET:
-            engine->setReverbWet(newValue);
-            break;
-        case REVERBDECAY:
-            engine->setReverbDecay(newValue);
-            break;
-        case REVERBPREDELAY:
-            engine->setReverbPreDelay(newValue);
-            break;
-        case REVERBHIGHCUT:
-            engine->setReverbHighCut(newValue);
-            break;
-        case REVERBLOWCUT:
-            engine->setReverbLowCut(newValue);
-            break;
         case OSCBITCRUSHER:
             engine->setOscBitcrusher(newValue);
             break;
@@ -329,30 +308,6 @@ void TalCore::setParameter (int index, float newValue)
             break;
         case FILTERDRIVE:
             engine->setFilterDrive(newValue);
-            break;
-        case DELAYWET:
-            engine->getDelayEngine()->setWet(newValue);
-            break;
-       case DELAYTIME:
-            engine->getDelayEngine()->setDelay(newValue);
-            break;
-        case DELAYSYNC:
-            engine->getDelayEngine()->setSync(newValue > 0);
-            break;
-        case DELAYFACTORL:
-            engine->getDelayEngine()->setFactor2xL(newValue > 0);
-            break;
-        case DELAYFACTORR:
-            engine->getDelayEngine()->setFactor2xR(newValue > 0);
-            break;
-        case DELAYHIGHSHELF:
-            engine->getDelayEngine()->setHighCut(newValue);
-            break;
-        case DELAYLOWSHELF:
-            engine->getDelayEngine()->setLowCut(newValue);
-            break;
-        case DELAYFEEDBACK:
-            engine->getDelayEngine()->setFeedback(newValue);
             break;
         case TAB1OPEN:
         case TAB2OPEN:
@@ -450,14 +405,6 @@ const String TalCore::getParameterName (int index)
     case DETUNE: return "detune";
     case RINGMODULATION: return "ringmodulation";
 
-    case CHORUS1ENABLE: return "chorus1enable";
-    case CHORUS2ENABLE: return "chorus2enable";
-
-    case REVERBWET: return "reverbwet";
-    case REVERBDECAY: return "reverbdecay";
-    case REVERBPREDELAY: return "reverbpredelay";
-    case REVERBHIGHCUT: return "reverbhighcut";
-    case REVERBLOWCUT: return "reverblowcut";
 
     case OSCBITCRUSHER: return "oscbitcrusher";
 
@@ -470,15 +417,6 @@ const String TalCore::getParameterName (int index)
     case VINTAGENOISE: return "vintagenoise";
 
     case FILTERDRIVE: return "filterdrive";
-
-    case DELAYWET: return "delaywet";
-    case DELAYTIME: return "delaytime";
-    case DELAYSYNC: return "delaysync";
-    case DELAYFACTORL: return "delayfactorl";
-    case DELAYFACTORR: return "delayfactorr";
-    case DELAYHIGHSHELF: return "delayhighshelf";
-    case DELAYLOWSHELF: return "delaylowshelf";
-    case DELAYFEEDBACK: return "delayfeedback";
 
     case UNUSED1:
     case UNUSED2:
@@ -574,7 +512,6 @@ void TalCore::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 
         this->engine->triggerLfoToHost((const float)this->bpm, (const float)pos.ppqPosition);
         this->engine->setEnvelopeEditorBpm(pos);
-        this->engine->setDelayBpm((float)this->bpm);
     }
     else
     {
@@ -835,26 +772,6 @@ void TalCore::getXmlPrograms(XmlElement *programList, int programNumber)
         program->setAttribute ("vintagenoise", talPresets[programNumber]->programData[VINTAGENOISE]);
         program->setAttribute ("ringmodulation", talPresets[programNumber]->programData[RINGMODULATION]);
 
-        program->setAttribute ("chorus1enable", talPresets[programNumber]->programData[CHORUS1ENABLE]);
-        program->setAttribute ("chorus2enable", talPresets[programNumber]->programData[CHORUS2ENABLE]);
-
-        program->setAttribute ("reverbwet", talPresets[programNumber]->programData[REVERBWET]);
-        program->setAttribute ("reverbdecay", talPresets[programNumber]->programData[REVERBDECAY]);
-        program->setAttribute ("reverbpredelay", talPresets[programNumber]->programData[REVERBPREDELAY]);
-        program->setAttribute ("reverbhighcut", talPresets[programNumber]->programData[REVERBHIGHCUT]);
-        program->setAttribute ("reverblowcut", talPresets[programNumber]->programData[REVERBLOWCUT]);
-        program->setAttribute ("oscbitcrusher", talPresets[programNumber]->programData[OSCBITCRUSHER]);
-        program->setAttribute ("filterdrive", talPresets[programNumber]->programData[FILTERDRIVE]);
-
-        program->setAttribute ("delaywet", talPresets[programNumber]->programData[DELAYWET]);
-        program->setAttribute ("delaytime", talPresets[programNumber]->programData[DELAYTIME]);
-        program->setAttribute ("delaysync", talPresets[programNumber]->programData[DELAYSYNC]);
-        program->setAttribute ("delayfactorl", talPresets[programNumber]->programData[DELAYFACTORL]);
-        program->setAttribute ("delayfactorr", talPresets[programNumber]->programData[DELAYFACTORR]);
-        program->setAttribute ("delayhighshelf", talPresets[programNumber]->programData[DELAYHIGHSHELF]);
-        program->setAttribute ("delaylowshelf", talPresets[programNumber]->programData[DELAYLOWSHELF]);
-        program->setAttribute ("delayfeedback", talPresets[programNumber]->programData[DELAYFEEDBACK]);
-
         program->setAttribute ("envelopeeditordest1", talPresets[programNumber]->programData[ENVELOPEEDITORDEST1]);
         program->setAttribute ("envelopeeditorspeed", talPresets[programNumber]->programData[ENVELOPEEDITORSPEED]);
         program->setAttribute ("envelopeeditoramount", talPresets[programNumber]->programData[ENVELOPEEDITORAMOUNT]);
@@ -951,25 +868,9 @@ void TalCore::setXmlPrograms(XmlElement* e, int programNumber, float version)
         talPresets[programNumber]->programData[FILTERDRIVE] = (float) e->getDoubleAttribute ("filterdrive", 0.0f);
 
         talPresets[programNumber]->programData[RINGMODULATION] = (float) e->getDoubleAttribute ("ringmodulation", 0.0f);
-        talPresets[programNumber]->programData[CHORUS1ENABLE] = (float) e->getDoubleAttribute ("chorus1enable", 0.0f);
-        talPresets[programNumber]->programData[CHORUS2ENABLE] = (float) e->getDoubleAttribute ("chorus2enable", 0.0f);
-
-        talPresets[programNumber]->programData[REVERBWET] = (float) e->getDoubleAttribute ("reverbwet", 0.0f);
-        talPresets[programNumber]->programData[REVERBDECAY] = (float) e->getDoubleAttribute ("reverbdecay", 0.5f);
-        talPresets[programNumber]->programData[REVERBPREDELAY] = (float) e->getDoubleAttribute ("reverbpredelay", 0.0f);
-        talPresets[programNumber]->programData[REVERBHIGHCUT] = (float) e->getDoubleAttribute ("reverbhighcut", 1.0f);
-        talPresets[programNumber]->programData[REVERBLOWCUT] = (float) e->getDoubleAttribute ("reverblowcut", 0.1f);
 
         talPresets[programNumber]->programData[OSCBITCRUSHER] = (float) e->getDoubleAttribute ("oscbitcrusher", 1.0f);
 
-        talPresets[programNumber]->programData[DELAYWET] = (float) e->getDoubleAttribute ("delaywet", 0.0f);
-        talPresets[programNumber]->programData[DELAYTIME] = (float) e->getDoubleAttribute ("delaytime", 0.5f);
-        talPresets[programNumber]->programData[DELAYSYNC] = (float) e->getDoubleAttribute ("delaysync", 0.0f);
-        talPresets[programNumber]->programData[DELAYFACTORL] = (float) e->getDoubleAttribute ("delayfactorl", 0.0f);
-        talPresets[programNumber]->programData[DELAYFACTORR] = (float) e->getDoubleAttribute ("delayfactorr", 0.0f);
-        talPresets[programNumber]->programData[DELAYHIGHSHELF] = (float) e->getDoubleAttribute ("delayhighshelf", 0.0f);
-        talPresets[programNumber]->programData[DELAYLOWSHELF] = (float) e->getDoubleAttribute ("delaylowshelf", 0.0f);
-        talPresets[programNumber]->programData[DELAYFEEDBACK] = (float) e->getDoubleAttribute ("delayfeedback", 0.5f);
 
         talPresets[programNumber]->programData[TAB1OPEN] = (float) e->getDoubleAttribute ("tab1open", 1.0f);
         talPresets[programNumber]->programData[TAB2OPEN] = (float) e->getDoubleAttribute ("tab2open", 1.0f);

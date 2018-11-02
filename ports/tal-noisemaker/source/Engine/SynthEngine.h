@@ -36,9 +36,6 @@
 #include "HighPass.h"
 #include "StereoPan.h"
 #include "OscNoise.h"
-#include "../Effects/Chorus/ChorusEngine.h"
-#include "../Effects/Delay/DelayEngine.h"
-#include "../Effects/Reverb/ReverbEngine.h"
 #include "../EnvelopeEditor/EnvelopeEditor.h"
 #include "../EnvelopeEditor/EnvelopeEditorHandler.h"
 
@@ -50,35 +47,18 @@ private:
 	float volume;
 	float cutoff;
 
-	// VoiceManager* voiceManager;
   ScopedPointer<VoiceManager> voiceManager;
-	// ParamChangeUtil *cutoffFiltered;
   ScopedPointer<ParamChangeUtil> cutoffFiltered;
-  // LfoHandler1 *lfoHandler1;
   ScopedPointer<LfoHandler1> lfoHandler1;
-  // LfoHandler2 *lfoHandler2;
   ScopedPointer<LfoHandler2> lfoHandler2;
-  // PitchwheelHandler *pitchwheelHandler;
   ScopedPointer<PitchwheelHandler> pitchwheelHandler;
-  // VelocityHandler *velocityHandler;
   ScopedPointer<VelocityHandler> velocityHandler;
-  // HighPass *highPass;
   ScopedPointer<HighPass> highPass;
-  // StereoPan *stereoPan;
   ScopedPointer<StereoPan> stereoPan;
 
-  // DelayEngine *delayEngine;
-  ScopedPointer<DelayEngine> delayEngine;
-  // ChorusEngine *chorusEngine;
-  ScopedPointer<ChorusEngine> chorusEngine;
-  // ReverbEngine *reverbEngine;
-  ScopedPointer<ReverbEngine> reverbEngine;
-  // EnvelopeEditor *envelopeEditor;
   ScopedPointer<EnvelopeEditor> envelopeEditor;
-  // EnvelopeEditorHandler *envelopeEditorHandler;
   ScopedPointer<EnvelopeEditorHandler> envelopeEditorHandler;
 
-  // OscNoise *denormalNoise;
   ScopedPointer<OscNoise> denormalNoise;
 
 	AudioUtils audioUtils;
@@ -91,20 +71,6 @@ public:
 
 	~SynthEngine()
 	{
-		// delete cutoffFiltered;
-		// delete voiceManager;
-    // delete chorusEngine;
-    // delete reverbEngine;
-    // delete envelopeEditor;
-    // delete envelopeEditorHandler;
-    // delete highPass;
-    // delete stereoPan;
-    // delete denormalNoise;
-    // delete lfoHandler1;
-    // delete lfoHandler2;
-    // delete pitchwheelHandler;
-    // delete velocityHandler;
-    // delete delayEngine;
 	}
 
 private:
@@ -135,9 +101,6 @@ private:
 
         this->denormalNoise = new OscNoise(sampleRate);
 
-        this->delayEngine = new DelayEngine(sampleRate);
-        this->chorusEngine = new ChorusEngine(sampleRate);
-        this->reverbEngine = new ReverbEngine(sampleRate);
 		voiceManager = new VoiceManager(sampleRate, lfoHandler1, lfoHandler2, velocityHandler, pitchwheelHandler, envelopeEditorHandler);
 	}
 
@@ -757,11 +720,6 @@ public:
         this->envelopeEditor->setTimeInformation(pos);
     }
 
-    void setDelayBpm(float bpm)
-    {
-        this->delayEngine->setBpm(bpm);
-    }
-
     void setEnvelopeEditorBpm(float bpm)
     {
         this->envelopeEditor->setTimeInformation(bpm);
@@ -803,36 +761,6 @@ public:
 		}
     }
 
-    void setChorus(bool isChorus1Enabled, bool isChorus2Enabled)
-    {
-        this->chorusEngine->setEnablesChorus(isChorus1Enabled, isChorus2Enabled);
-    }
-
-    void setReverbWet(float value)
-    {
-        this->reverbEngine->setWet(value);
-    }
-
-    void setReverbDecay(float value)
-    {
-        this->reverbEngine->setDecayTime(value);
-    }
-
-    void setReverbPreDelay(float value)
-    {
-        this->reverbEngine->setPreDelay(value);
-    }
-
-    void setReverbHighCut(float value)
-    {
-        this->reverbEngine->setHighCut(value);
-    }
-
-    void setReverbLowCut(float value)
-    {
-        this->reverbEngine->setLowCut(value);
-    }
-
     void setOscBitcrusher(float value)
     {
 		SynthVoice** voices = voiceManager->getAllVoices();
@@ -840,11 +768,6 @@ public:
 		{
 			voices[i]->setOscBitcrusher(value);
 		}
-    }
-
-    DelayEngine* getDelayEngine()
-    {
-        return delayEngine;
     }
 
     void reset()
@@ -910,11 +833,6 @@ public:
 
 		*sampleL *= volume;
 		*sampleR *= volume;
-
-        // stereo master fx
-        // this->delayEngine->process(sampleL, sampleR);
-        // this->chorusEngine->process(sampleL, sampleR);
-        // this->reverbEngine->process(sampleL, sampleR);
 	}
 };
 #endif
