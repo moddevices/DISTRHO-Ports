@@ -16,7 +16,7 @@
 
 	You should have received a copy of the GPL along with this
 	program. If not, go to http://www.gnu.org/licenses/gpl.html
-	or write to the Free Software Foundation, Inc.,  
+	or write to the Free Software Foundation, Inc.,
 	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 	==============================================================================
  */
@@ -32,17 +32,17 @@ class TalPreset
     int   midiMap[256]; // 255 Midi Values to Map
 
     Array<SplinePoint*> splinePoints;
-  
+
     TalPreset()
 	{
 		// Set values to 0
-		for (int i = 0; i < NUMPARAM; i++) 
+		for (int i = 0; i < NUMPARAM; i++)
         {
 			programData[i] = 0.0f;
 		}
 
         // Init default values
-        
+
         programData[VOLUME] = 0.5f;
         programData[FILTERTYPE] = 1.0f;
         programData[CUTOFF] = 1.0f;
@@ -79,9 +79,6 @@ class TalPreset
 
         programData[FREEADDESTINATION] = 1.0f;
 
-        programData[REVERBDECAY] = 0.5f;
-        programData[REVERBLOWCUT] = 1.0f;
-        programData[REVERBHIGHCUT] = 0.0f;
         programData[OSCBITCRUSHER] = 1.0f;
         programData[TAB1OPEN] = 1.0f;
         programData[TAB2OPEN] = 1.0f;
@@ -89,14 +86,14 @@ class TalPreset
         programData[ENVELOPEEDITORSPEED] = 1.0f;
 
 		// Init default midiMap
-		for (int i = 0; i < 256; i++) 
+		for (int i = 0; i < 256; i++)
 		{
 			midiMap[i] = 0;
 		}
 		name = "default";
 	}
 
-    ~TalPreset() 
+    ~TalPreset()
     {
         splinePoints.clear();
     }
