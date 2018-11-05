@@ -3,7 +3,7 @@
 	This file is part of Obxd synthesizer.
 
 	Copyright ) 2013-2014 Filatov Vadim
-	
+
 	Contact author via email :
 	justdat_@_e1.ru
 
@@ -17,7 +17,7 @@
 
 	You should have received a copy of the GPL along with this
 	program. If not, go to http://www.gnu.org/licenses/gpl.html
-	or write to the Free Software Foundation, Inc.,  
+	or write to the Free Software Foundation, Inc.,
 	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 	==============================================================================
  */
@@ -166,7 +166,8 @@ public:
 	}
 	void setVoiceCount(float param)
 	{
-		synth.setVoiceCount(roundToInt((param*7) +1));
+		synth.setVoiceCount(roundToInt((param*3) +1));
+		std::cout << "number of voices = " << roundToInt((param*3)+1) << std::endl;
 	}
 	void procPitchWheelAmount(float param)
 	{
@@ -599,5 +600,5 @@ for(int i = 0 ; i < synth.MAX_VOICES;i++)
 		ForEachVoice(levelDetuneAmt = linsc(param,0.0,0.67));
 	}
 
-		 
+
 };

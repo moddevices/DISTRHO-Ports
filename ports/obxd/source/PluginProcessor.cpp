@@ -626,12 +626,13 @@ inline void ObxdAudioProcessor::processMidiPerSample(MidiBuffer::Iterator* iter,
 
 bool ObxdAudioProcessor::getNextEvent(MidiBuffer::Iterator* iter,const int samplePos)
 {
-	if (hasMidiMessage && midiEventPos <= samplePos)
+	if ((hasMidiMessage && midiEventPos <= samplePos) || (hasMidiMessage && midiEventPos >= samplePos))
 	{
 		midiMsg = nextMidi;
 		hasMidiMessage = iter->getNextEvent(nextMidi, midiEventPos);
+		std::cout << "MIDI-message" << std::endl;
 		return true;
-	} 
+	}
 	return false;
 }
 
