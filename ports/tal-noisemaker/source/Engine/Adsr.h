@@ -16,7 +16,7 @@
 
 	You should have received a copy of the GPL along with this
 	program. If not, go to http://www.gnu.org/licenses/gpl.html
-	or write to the Free Software Foundation, Inc.,  
+	or write to the Free Software Foundation, Inc.,
 	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 	==============================================================================
  */
@@ -24,7 +24,7 @@
 #if !defined(__ADSR_h)
 #define __ADSR_h
 
-class Adsr 
+class Adsr
 {
 private:
 	float attackReal;
@@ -41,16 +41,16 @@ private:
 
 	int state;
 	float actualValue;
-    float returnValue;
+  float returnValue;
 
-    float realeaseDeclickerValue;
+  float realeaseDeclickerValue;
 
 public:
 	Adsr(float sampleRate)
 	{
 		state = 0;
 		actualValue = 0.0f;
-        returnValue = 0.0f;
+    returnValue = 0.0f;
 
 		sampleRateFactor = 0.004f * 44100.0f / sampleRate;
 
@@ -63,7 +63,7 @@ public:
 		decayReal = 0.0f;
 		attackReal = 0.0f;
 
-        realeaseDeclickerValue = 1.0f;
+    realeaseDeclickerValue = 1.0f;
 	}
 
 private:
@@ -109,7 +109,7 @@ public:
 		this->release = this->scaleValue(value) * 8.0f;
 	}
 
-	inline float tick(bool noteOn) 
+	inline float tick(bool noteOn)
 	{
 		if (!noteOn && actualValue > 0.0f && state != 3)
 		{
@@ -123,38 +123,38 @@ public:
 		switch (state)
 		{
 		case 0:
-            actualValue += attack * sampleRateFactor * 200.0f * (1.04f + this->attackReal * 0.5f - actualValue);
+      actualValue += attack * sampleRateFactor * 200.0f * (1.04f + this->attackReal * 0.5f - actualValue);
 
 			if (actualValue > 1.0f)
 			{
-				actualValue = 1.0f; 
+				actualValue = 1.0f;
 				state = 1;
 			}
 
-            returnValue = actualValue;
-            break;
+      returnValue = actualValue;
+      break;
 		case 1:
-            actualValue -= decay * (actualValue + sampleRateFactor);
-            tmp = actualValue;
+    	actualValue -= decay * (actualValue + sampleRateFactor);
+    	tmp = actualValue;
 
 			if (tmp <= sustainReal)
 			{
 				tmp = sustainReal;
 				state = 2;
 			}
-            returnValue = tmp;
-            break;
-        case 2:
-            actualValue = sustainReal;
-            returnValue = sustainReal;
-            break;
+  		returnValue = tmp;
+    	break;
+    case 2:
+      actualValue = sustainReal;
+      returnValue = sustainReal;
+      break;
 		case 3:
-            realeaseDeclickerValue -= sampleRateFactor;
-            
-            if (realeaseDeclickerValue <= 0.0f)
-            {
-                realeaseDeclickerValue = 0.0f;
-            }
+      realeaseDeclickerValue -= sampleRateFactor;
+
+      if (realeaseDeclickerValue <= 0.0f)
+      {
+          realeaseDeclickerValue = 0.0f;
+      }
 
 			actualValue -= release * ((actualValue + sampleRateFactor) * (1.0f - realeaseDeclickerValue));
 			if (actualValue < 0.0f)
@@ -164,7 +164,7 @@ public:
 			}
             returnValue = actualValue;
             break;
-		case 4: 
+		case 4:
 			returnValue = actualValue = 0.0f;
 			break;
 		}
