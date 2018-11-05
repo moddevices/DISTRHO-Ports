@@ -36,7 +36,7 @@
 #include "./Engine/SynthEngine.h"
 #include "./Engine/Params.h"
 #include "TalPreset.h"
-#include "./EnvelopeEditor/EnvelopePresetUtility.h"
+// #include "./EnvelopeEditor/EnvelopePresetUtility.h"
 
 //==============================================================================
 /**
@@ -111,9 +111,6 @@ public:
 
 	void processMidiPerSample (MidiBuffer::Iterator *midiIterator, int samplePos);
     bool getNextEvent (MidiBuffer::Iterator *midiIterator, int samplePos);
-
-    EnvelopeEditor* getEnvelopeEditor();
-    void envelopeChanged();
 
     float getBpm();
 

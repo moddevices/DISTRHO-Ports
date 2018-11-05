@@ -36,8 +36,6 @@
 #include "HighPass.h"
 #include "StereoPan.h"
 #include "OscNoise.h"
-#include "../EnvelopeEditor/EnvelopeEditor.h"
-#include "../EnvelopeEditor/EnvelopeEditorHandler.h"
 
 class SynthEngine
 {
@@ -55,10 +53,6 @@ private:
   ScopedPointer<VelocityHandler> velocityHandler;
   ScopedPointer<HighPass> highPass;
   ScopedPointer<StereoPan> stereoPan;
-
-  ScopedPointer<EnvelopeEditor> envelopeEditor;
-  ScopedPointer<EnvelopeEditorHandler> envelopeEditorHandler;
-
   ScopedPointer<OscNoise> denormalNoise;
 
 	AudioUtils audioUtils;
@@ -87,21 +81,18 @@ private:
 
 		cutoffFiltered = new ParamChangeUtil(sampleRate, 1000.0f);
 
-        this->envelopeEditor = new EnvelopeEditor(sampleRate);
-
 		lfoHandler1 = new LfoHandler1(sampleRate);
 		lfoHandler2 = new LfoHandler2(sampleRate);
 
         pitchwheelHandler = new PitchwheelHandler(sampleRate);
         velocityHandler = new VelocityHandler(sampleRate);
-        envelopeEditorHandler = new EnvelopeEditorHandler(this->envelopeEditor);
 
         highPass = new HighPass();
         this->stereoPan = new StereoPan(lfoHandler2);
 
         this->denormalNoise = new OscNoise(sampleRate);
 
-		voiceManager = new VoiceManager(sampleRate, lfoHandler1, lfoHandler2, velocityHandler, pitchwheelHandler, envelopeEditorHandler);
+		voiceManager = new VoiceManager(sampleRate, lfoHandler1, lfoHandler2, velocityHandler, pitchwheelHandler);
 	}
 
 	Osc::Waveform getOsc1Waveform(int value)
@@ -135,16 +126,6 @@ private:
 	}
 
 public:
-    EnvelopeEditor* getEnvelopeEditor()
-    {
-        return this->envelopeEditor;
-    }
-
-    void setPoints(Array<SplinePoint*> splinePoints)
-    {
-        this->envelopeEditor->setPoints(splinePoints);
-    }
-
 	void setSampleRate(float sampleRate)
 	{
 		initialize(sampleRate);
@@ -714,43 +695,6 @@ public:
 			voices[i]->setFiltertype(intValue);
 		}
 	}
-
-    void setEnvelopeEditorBpm(AudioPlayHead::CurrentPositionInfo pos)
-    {
-        this->envelopeEditor->setTimeInformation(pos);
-    }
-
-    void setEnvelopeEditorBpm(float bpm)
-    {
-        this->envelopeEditor->setTimeInformation(bpm);
-    }
-
-    void setEnvelopeEditorDest1(float value)
-    {
-        int intValue = audioUtils.calcComboBoxValue(value, ENVELOPEEDITORDEST1);
-        this->envelopeEditorHandler->setDestination1(intValue);
-    }
-
-    void setEnvelopeEditorSpeed(float value)
-    {
-        int intValue = audioUtils.calcComboBoxValue(value, ENVELOPEEDITORSPEED);
-        this->envelopeEditor->setSpeedFactor(intValue);
-    }
-
-    void setEnvelopeEditorAmount(float value)
-    {
-        this->envelopeEditorHandler->setAmount(value);
-    }
-
-    void setEnvelopeEditorOneShot(bool value)
-    {
-        this->envelopeEditorHandler->setOneShot(value);
-    }
-
-    void setEnvelopeEditorFixTempo(bool value)
-    {
-        this->envelopeEditorHandler->setFixTempo(value);
-    }
 
     void setFilterDrive(float value)
     {

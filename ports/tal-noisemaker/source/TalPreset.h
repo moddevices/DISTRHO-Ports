@@ -31,8 +31,6 @@ class TalPreset
 	float programData[NUMPARAM];
     int   midiMap[256]; // 255 Midi Values to Map
 
-    Array<SplinePoint*> splinePoints;
-
     TalPreset()
 	{
 		// Set values to 0
@@ -82,8 +80,6 @@ class TalPreset
         programData[OSCBITCRUSHER] = 1.0f;
         programData[TAB1OPEN] = 1.0f;
         programData[TAB2OPEN] = 1.0f;
-        programData[ENVELOPEEDITORDEST1] = 1.0f;
-        programData[ENVELOPEEDITORSPEED] = 1.0f;
 
 		// Init default midiMap
 		for (int i = 0; i < 256; i++)
@@ -95,17 +91,6 @@ class TalPreset
 
     ~TalPreset()
     {
-        splinePoints.clear();
-    }
-
-    void setPoints(Array<SplinePoint*> splinePoints)
-    {
-        this->splinePoints = splinePoints;
-    }
-
-    Array<SplinePoint*> getPoints()
-    {
-       return this->splinePoints;
     }
 };
 #endif

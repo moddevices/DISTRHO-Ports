@@ -40,7 +40,6 @@
 #include "./Component/AccordeonTab.h"
 #include "./Component/AccordeonTabContainer.h"
 #include "./Component/LogoPanel.h"
-#include "./EnvelopeEditor/EnvelopeEditorView.h"
 #include "./Engine/AudioUtils.h"
 
 
@@ -118,18 +117,17 @@ public:
     static const int bmp00137_pngSize;
 
 private:
-    AccordeonTabContainer *accordeonTabContainer;
-    AccordeonTab *envelopeEditorAccordeonTab;
-    AccordeonTab *synth1AccordeonTab;
-    AccordeonTab *synth2AccordeonTab;
-    AccordeonTab *controlAccordeonTab;
-    LogoPanel *logoPanel;
+  AccordeonTabContainer *accordeonTabContainer;
+  AccordeonTab *envelopeEditorAccordeonTab;
+  AccordeonTab *synth1AccordeonTab;
+  AccordeonTab *synth2AccordeonTab;
+  AccordeonTab *controlAccordeonTab;
+  LogoPanel *logoPanel;
 
-    EnvelopeEditorView *envelopeEditorView;
 
 	FilmStripKnob *volumeKnob;
 
-    TalComboBox *filtertypeTalComboBox;
+  TalComboBox *filtertypeTalComboBox;
 	FilmStripKnob *cutoffKnob;
 	FilmStripKnob *resonanceKnob;
 	FilmStripKnob *filterContourKnob;
@@ -229,34 +227,34 @@ private:
 
 	TalComboBox *envelopeEditorDest1TalComboBox;
 	TalComboBox *envelopeEditorSpeedTalComboBox;
-    FilmStripKnob *envelopeEditorAmountKnob;
+  FilmStripKnob *envelopeEditorAmountKnob;
 	ImageToggleButton *envelopeOneShotButton;
-    ImageToggleButton *envelopeResetButton;
-    ImageToggleButton *envelopeFixTempoButton;
+  ImageToggleButton *envelopeResetButton;
+  ImageToggleButton *envelopeFixTempoButton;
 
 	Label *versionLabel;
-    Label *infoText;
+  Label *infoText;
 
-    ImageToggleButton *loadButton;
-    ImageToggleButton *saveButton;
+  ImageToggleButton *loadButton;
+  ImageToggleButton *saveButton;
 
 	AudioUtils audioUtils;
 
-    void updateParametersFromFilter();
+  void updateParametersFromFilter();
 	FilmStripKnob* addNormalKnob(Component *component, int x, int y, TalCore* const ownerFilter, const Image knobImage, int numOfFrames, const int parameter);
 	ImageToggleButton* addNormalButton(Component *component, int x, int y, TalCore* const ownerFilter, const Image buttonImage, bool isKickButton, int parameter);
 	ImageSlider* addSlider(Component *component, int x, int y, TalCore* const ownerFilter, const Image sliderImage, int height, int parameter);
 	TalComboBox* addTalComboBox(Component *component, int x, int y, int width, TalCore* const ownerFilter, int parameter);
 
-    void updateInfo(Slider* caller);
+  void updateInfo(Slider* caller);
 
-    // handy wrapper method to avoid having to cast the filter to a DemoJuceFilter
-    // every time we need it..
+  // handy wrapper method to avoid having to cast the filter to a DemoJuceFilter
+  // every time we need it..
 
-    TalCore* getProcessor() const
-    {
-        return static_cast <TalCore*> (getAudioProcessor());
-    }
+  TalCore* getProcessor() const
+  {
+      return static_cast <TalCore*> (getAudioProcessor());
+  }
 };
 
 

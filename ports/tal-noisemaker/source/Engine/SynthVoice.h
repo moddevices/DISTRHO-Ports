@@ -16,7 +16,7 @@
 
 	You should have received a copy of the GPL along with this
 	program. If not, go to http://www.gnu.org/licenses/gpl.html
-	or write to the Free Software Foundation, Inc.,  
+	or write to the Free Software Foundation, Inc.,
 	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 	==============================================================================
  */
@@ -37,8 +37,6 @@
 #include "AudioUtils.h"
 #include "HighPass.h"
 #include "OscNoise.h"
-#include "../EnvelopeEditor/EnvelopeEditorVoiceHandler.h"
-#include "../EnvelopeEditor/EnvelopeEditorHandler.h"
 
 class SynthVoice
 {
@@ -67,10 +65,8 @@ private:
 
 	LfoHandler1 *lfoHandler1;
 	LfoHandler2 *lfoHandler2;
-    VelocityHandler *velocityHandler;
-    PitchwheelHandler *pitchwheelHandler;
-    EnvelopeEditorHandler *envelopeEditorHandler;
-    EnvelopeEditorVoiceHandler *envelopeEditorVoiceHandler;
+  VelocityHandler *velocityHandler;
+  PitchwheelHandler *pitchwheelHandler;
 
 	int countPostFilter;
 	int countSilentFilter;
@@ -84,20 +80,17 @@ public:
 	int noteNumber;
 
 	SynthVoice(
-        float sampleRate, 
-        LfoHandler1 *lfoHandler1, 
+        float sampleRate,
+        LfoHandler1 *lfoHandler1,
         LfoHandler2 *lfoHandler2,
-        VelocityHandler *velocityHandler, 
-        PitchwheelHandler *pitchwheelHandler,
-        EnvelopeEditorHandler *envelopeEditorHandler)
+        VelocityHandler *velocityHandler,
+        PitchwheelHandler *pitchwheelHandler)
 	{
 		this->lfoHandler1 = lfoHandler1;
 		this->lfoHandler2 = lfoHandler2;
-        this->velocityHandler = velocityHandler;
-        this->pitchwheelHandler = pitchwheelHandler;
-        this->envelopeEditorHandler = envelopeEditorHandler;
+    this->velocityHandler = velocityHandler;
+    this->pitchwheelHandler = pitchwheelHandler;
 
-        this->envelopeEditorVoiceHandler = new EnvelopeEditorVoiceHandler(envelopeEditorHandler);
 		initialize(sampleRate);
 	}
 
@@ -108,8 +101,7 @@ public:
 		delete this->ampAdsr;
 		delete this->freeAdsr;
 		delete this->portamento;
-        delete this->oscNoise;
-        delete this->envelopeEditorVoiceHandler;
+    delete this->oscNoise;
 		delete this->vco;
 	}
 
@@ -129,22 +121,22 @@ private:
 		this->portamentoMode = 0;
 		this->portamentoValue = 0.0f;
 
-        this->velocity = 1.0f;
+    this->velocity = 1.0f;
 
-        this->mastertune = 0.0f;
-        this->transpose = 0.0f;
+    this->mastertune = 0.0f;
+    this->transpose = 0.0f;
 
-        this->detuneFactor = 1.0f;
-        this->detune = 0.0f;
-        this->vintageNoise = 0.0f;
+    this->detuneFactor = 1.0f;
+    this->detune = 0.0f;
+    this->vintageNoise = 0.0f;
 
-        this->oscNoise = new OscNoise((float)sampleRate);
+    this->oscNoise = new OscNoise((float)sampleRate);
 
 		this->freeAdsr = new AdsrHandler((float)sampleRate);
 		this->freeAdsr->setSustain(0.0f);
 		this->freeAdsr->setRelease(1.0f);
 
-		this->vco = new Vco(sampleRate, this->lfoHandler1, this->lfoHandler2, this->freeAdsr, this->envelopeEditorHandler, this->envelopeEditorVoiceHandler);
+		this->vco = new Vco(sampleRate, this->lfoHandler1, this->lfoHandler2, this->freeAdsr);
 
 		this->filterHandler = new FilterHandler(sampleRate);
 		this->filterAdsr = new Adsr(sampleRate);
@@ -154,25 +146,24 @@ private:
 	}
 
 	inline void processFilter(float *sample, float cutoff)
-	{	
-        cutoff += this->velocityHandler->getCutoff() * this->velocity + this->pitchwheelHandler->getCutoff();
+	{
+    cutoff += this->velocityHandler->getCutoff() * this->velocity + this->pitchwheelHandler->getCutoff();
 		cutoff += this->keyfollow * (((float)this->noteNumber - 72.0f) / 512.0f);
-        cutoff += this->lfoHandler1->getFilter() + this->lfoHandler2->getFilter();
-        cutoff += this->envelopeEditorHandler->getFilterValue(this->envelopeEditorVoiceHandler->getValue());
+    cutoff += this->lfoHandler1->getFilter() + this->lfoHandler2->getFilter();
 
-        this->filterAdsr->tick(isNoteOn);
-        float contourAdsr = this->filterAdsr->getValueFasterAttack();
-        float contourAmount = filterContour + this->velocityHandler->getContour() * velocity;
+    this->filterAdsr->tick(isNoteOn);
+    float contourAdsr = this->filterAdsr->getValueFasterAttack();
+    float contourAmount = filterContour + this->velocityHandler->getContour() * velocity;
 		cutoff += contourAmount * contourAdsr + this->freeAdsr->getFilter();
-        cutoff = cutoff * cutoff;
+    cutoff = cutoff * cutoff;
 
 		if (cutoff > 1.0f) cutoff = 1.0f;
 		if (cutoff < 0.0f) cutoff = 0.0f;
-        this->filterHandler->process(sample, cutoff, this->resonance);
+    this->filterHandler->process(sample, cutoff, this->resonance);
 	}
 
 	inline void processAmp(float *sample)
-	{ 
+	{
 		*sample *= this->ampAdsr->tick(isNoteOn);
 	}
 
@@ -181,35 +172,35 @@ private:
 		this->freeAdsr->process(isNoteOn);
 	}
 
-    inline void calcRandomDetuneFactor()
-    {
-        this->detuneFactor = ((((float)rand()/(float)RAND_MAX) - 0.5f) * 0.005f);
-    }
+  inline void calcRandomDetuneFactor()
+  {
+      this->detuneFactor = ((((float)rand()/(float)RAND_MAX) - 0.5f) * 0.005f);
+  }
 
 	inline void prepareFilterForNextNote(const float cutoff)
 	{
-        if (countPostFilter == 0)
-        {
-            this->filterHandler->reset();
-        }
-        
+    if (countPostFilter == 0)
+    {
+        this->filterHandler->reset();
+    }
+
         // Fast filter prepare for next note
 		if (countPostFilter++ < 2000)
 		{
-		    float silentSample = 0.0f;
+	    float silentSample = 0.0f;
 			this->filterAdsr->resetState();
 			this->freeAdsr->resetState();
 			this->lfoHandler1->triggerPhase();
 			this->lfoHandler2->triggerPhase();
-            processFilter(&silentSample, cutoff + 0.1f);
+      processFilter(&silentSample, cutoff + 0.1f);
 		}
 	}
 
 public:
-    void reset()
-    {
-        countPostFilter = 0;
-    }
+  void reset()
+  {
+      countPostFilter = 0;
+  }
 
 	bool isNotePlaying()
 	{
@@ -228,7 +219,6 @@ public:
 			this->lfoHandler1->triggerPhase();
 			this->lfoHandler2->triggerPhase();
             this->velocity = velocity;
-            this->envelopeEditorVoiceHandler->reset();
 			break;
 		case 2:
 			if (!isNotePlaying()) this->portamento->setUpNote((float)note);
@@ -242,7 +232,6 @@ public:
 				this->lfoHandler1->triggerPhase();
 				this->lfoHandler2->triggerPhase();
                 this->velocity = velocity;
-                this->envelopeEditorVoiceHandler->reset();
 			}
 			break;
 		}
@@ -257,7 +246,6 @@ public:
 			this->lfoHandler1->triggerPhase();
 			this->lfoHandler2->triggerPhase();
             this->velocity = velocity;
-            this->envelopeEditorVoiceHandler->reset();
 		}
 
 		this->isNoteOn = true;
@@ -320,7 +308,7 @@ public:
 	void setAmpRelease(float value)
 	{
 		this->ampAdsr->setRelease(value);
-	}  
+	}
 
 	void setKeyfollow(float value)
 	{
@@ -501,7 +489,7 @@ public:
     {
         this->vco->setOscBitcrusher(value);
     }
-    
+
     void setFilterDrive(float value)
     {
         this->filterHandler->setFilterDrive(value);
@@ -518,25 +506,23 @@ public:
 		float sample = 0.0f;
 		if (this->isNotePlaying())
 		{
-            this->envelopeEditorVoiceHandler->tick();
 			this->processFreeEnvelope();
 
 			float masterNote = this->portamento->tick((float)noteNumber, portamentoValue, portamentoMode > 0.5f);
-            masterNote += this->pitchwheelHandler->getPitch() + this->mastertune + this->transpose;
-            masterNote *= (this->detuneFactor * this->detune + 1.0f);
-            this->vco->process(&sample, masterNote);
+      masterNote += this->pitchwheelHandler->getPitch() + this->mastertune + this->transpose;
+      masterNote *= (this->detuneFactor * this->detune + 1.0f);
+      this->vco->process(&sample, masterNote);
 
-            // introduce vintage noise
-            if (this->vintageNoise > 0.0f)
-            {
-                sample += this->oscNoise->getNextSampleVintage() * this->vintageNoise * 0.2f;
-            }
+      // introduce vintage noise
+      if (this->vintageNoise > 0.0f)
+      {
+        sample += this->oscNoise->getNextSampleVintage() * this->vintageNoise * 0.2f;
+      }
 
 			this->processFilter(&sample, cutoff);
 			this->processAmp(&sample);
 
-            sample *= this->velocityHandler->getVolume(velocity);
-            sample *= this->envelopeEditorHandler->getVolumeValue(this->envelopeEditorVoiceHandler->getValue());
+      sample *= this->velocityHandler->getVolume(velocity);
 
 			*sampleL += sample;
 			*sampleR += sample;

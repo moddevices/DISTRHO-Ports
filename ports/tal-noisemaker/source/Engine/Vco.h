@@ -29,8 +29,6 @@
 #include "LfoHandler2.h"
 #include "AdsrHandler.h"
 #include "AudioUtils.h"
-#include "../EnvelopeEditor/EnvelopeEditorVoiceHandler.h"
-#include "../EnvelopeEditor/EnvelopeEditorHandler.h"
 
 class Vco
 {
@@ -42,9 +40,6 @@ private:
 	LfoHandler1 *lfoHandler1;
 	LfoHandler2 *lfoHandler2;
 	AdsrHandler *freeAdsrHandler;
-
-    EnvelopeEditorHandler *envelopeEditorHandler;
-    EnvelopeEditorVoiceHandler *envelopeEditorVoiceHandler;
 
 	float oldNoteValue;
 	float currentFrequency;
@@ -68,16 +63,12 @@ public:
 	Vco(float sampleRate, 
         LfoHandler1 *lfoHandler1, 
         LfoHandler2 *lfoHandler2, 
-        AdsrHandler *freeAdsrHandler,
-        EnvelopeEditorHandler *envelopeEditorHandler,
-        EnvelopeEditorVoiceHandler *envelopeEditorVoiceHandler
+        AdsrHandler *freeAdsrHandler
         )
 	{
 		this->lfoHandler1 = lfoHandler1;
 		this->lfoHandler2 = lfoHandler2;
 		this->freeAdsrHandler = freeAdsrHandler;
-        this->envelopeEditorHandler = envelopeEditorHandler;
-        this->envelopeEditorVoiceHandler = envelopeEditorVoiceHandler;
 
 		oldNoteValue = 0.0f;
 		currentFrequency = 440.0f;
@@ -208,16 +199,16 @@ public:
 	{
 		float masterNote = note - 24.0f;
 		float osc1Note = note + osc1FineTune + osc1Tune;
-        osc1Note += lfoHandler1->getOsc1Pitch() + lfoHandler2->getOsc1Pitch() + freeAdsrHandler->getOsc1() + this->envelopeEditorHandler->getOsc1Value(this->envelopeEditorVoiceHandler->getValueCentered());
+        osc1Note += lfoHandler1->getOsc1Pitch() + lfoHandler2->getOsc1Pitch() + freeAdsrHandler->getOsc1();
 		
 		float osc2Note = note + osc2FineTune + osc2Tune;
-        osc2Note += lfoHandler1->getOsc2Pitch() + lfoHandler2->getOsc2Pitch() + freeAdsrHandler->getOsc2() + this->envelopeEditorHandler->getOsc2Value(this->envelopeEditorVoiceHandler->getValueCentered());
+        osc2Note += lfoHandler1->getOsc2Pitch() + lfoHandler2->getOsc2Pitch() + freeAdsrHandler->getOsc2();
 
 		float osc1PwSum = lfoHandler1->getPw() + this->osc1Pw + this->freeAdsrHandler->getPw();
 		if (osc1PwSum > 1.0f) osc1PwSum = 1.0f;
 
 		osc1->setPw(osc1PwSum);
-		osc2->setFm(lfoHandler1->getFm() + this->osc2Fm + this->freeAdsrHandler->getFm() + this->envelopeEditorHandler->getFmValue(this->envelopeEditorVoiceHandler->getValue()));
+		osc2->setFm(lfoHandler1->getFm() + this->osc2Fm + this->freeAdsrHandler->getFm());
 		osc2->setFmFrequency(osc1->getCurrentFrequency());
 
 		*sample += this->osc3->process(masterNote);
@@ -225,7 +216,7 @@ public:
 		float osc2Value = this->osc2->process(osc2Note);
         float ringmodValue = osc1Value * osc2Value;
 
-        float ringmodAmount = ringmodulation + this->envelopeEditorHandler->getRingmodValue(this->envelopeEditorVoiceHandler->getValue());
+        float ringmodAmount = ringmodulation;
         if (ringmodAmount > 1.0f) ringmodAmount = 1.0f;
         
         float result = 

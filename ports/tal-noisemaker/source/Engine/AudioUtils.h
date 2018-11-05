@@ -304,8 +304,6 @@ public:
         case FILTERTYPE: numItems = 12; break;
         case OSC1WAVEFORM: numItems = 3; break;
         case OSC2WAVEFORM: numItems = 5; break;
-        case ENVELOPEEDITORDEST1: numItems = 8; break;
-        case ENVELOPEEDITORSPEED: numItems = 6; break;
         }
 
         return numItems;

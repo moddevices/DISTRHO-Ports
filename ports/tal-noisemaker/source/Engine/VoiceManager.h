@@ -44,14 +44,13 @@ public:
         LfoHandler1 *lfoHandler1,
         LfoHandler2 *lfoHandler2,
         VelocityHandler *velocityHandler,
-        PitchwheelHandler *pitchwheelHandler,
-        EnvelopeEditorHandler *envelopeEditorHandler)
+        PitchwheelHandler *pitchwheelHandler)
 	{
 		// Initialize voices
 		voices = new SynthVoice*[MAX_VOICES];
 		for (int i = 0; i < MAX_VOICES; i++)
 		{
-			voices[i] = new SynthVoice(sampleRate, lfoHandler1, lfoHandler2, velocityHandler, pitchwheelHandler, envelopeEditorHandler);
+			voices[i] = new SynthVoice(sampleRate, lfoHandler1, lfoHandler2, velocityHandler, pitchwheelHandler);
 		}
 
 		numberOfVoices = MAX_VOICES;

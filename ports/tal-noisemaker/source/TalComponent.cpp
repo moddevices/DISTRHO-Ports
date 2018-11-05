@@ -277,7 +277,7 @@ ImageToggleButton* TalComponent::addNormalButton(Component *component, int x, in
 {
 	ImageToggleButton *imageToggleButton;
 	component->addAndMakeVisible(imageToggleButton = new ImageToggleButton("Toggle Button", buttonImage, false, isKickButton, parameter));
-    imageToggleButton->setBounds(x, y + this->synth1AccordeonTab->getTabHeight(), buttonImage.getWidth(), buttonImage.getHeight() / 2);
+  imageToggleButton->setBounds(x, y + this->synth1AccordeonTab->getTabHeight(), buttonImage.getWidth(), buttonImage.getHeight() / 2);
 	imageToggleButton->addListener(this);
 	return imageToggleButton;
 }
@@ -634,33 +634,33 @@ void TalComponent::updateParametersFromFilter()
 	float lfo2Sync  = filter->getParameter(LFO2SYNC);
 	float lfo2KeyTrigger  = filter->getParameter(LFO2KEYTRIGGER);
 
-    float velocityVolume = filter->getParameter(VELOCITYVOLUME);
-    float velocityContour = filter->getParameter(VELOCITYCONTOUR);
-    float velocityCutoff = filter->getParameter(VELOCITYCUTOFF);
-    float pitchwheelCutoff = filter->getParameter(PITCHWHEELCUTOFF);
-    float pitchwheelPitch = filter->getParameter(PITCHWHEELPITCH);
-    float highpass = filter->getParameter(HIGHPASS);
-    float detune = filter->getParameter(DETUNE);
-    float vintageNoise = filter->getParameter(VINTAGENOISE);
-    float ringmodulation = filter->getParameter(RINGMODULATION);
+  float velocityVolume = filter->getParameter(VELOCITYVOLUME);
+  float velocityContour = filter->getParameter(VELOCITYCONTOUR);
+  float velocityCutoff = filter->getParameter(VELOCITYCUTOFF);
+  float pitchwheelCutoff = filter->getParameter(PITCHWHEELCUTOFF);
+  float pitchwheelPitch = filter->getParameter(PITCHWHEELPITCH);
+  float highpass = filter->getParameter(HIGHPASS);
+  float detune = filter->getParameter(DETUNE);
+  float vintageNoise = filter->getParameter(VINTAGENOISE);
+  float ringmodulation = filter->getParameter(RINGMODULATION);
 
-    float oscBitcrusher = filter->getParameter(OSCBITCRUSHER);
-    float filterDrive = filter->getParameter(FILTERDRIVE);
-    float filtertype = filter->getParameter(FILTERTYPE);
+  float oscBitcrusher = filter->getParameter(OSCBITCRUSHER);
+  float filterDrive = filter->getParameter(FILTERDRIVE);
+  float filtertype = filter->getParameter(FILTERTYPE);
 
-    float envelopeOneShot = filter->getParameter(ENVELOPEONESHOT);
-    float envelopeFixTempo = filter->getParameter(ENVELOPEFIXTEMPO);
-    float envelopeEditorAmount = filter->getParameter(ENVELOPEEDITORAMOUNT);
-    float envelopeEditorSpeed = filter->getParameter(ENVELOPEEDITORSPEED);
-    float envelopeEditorDest1 = filter->getParameter(ENVELOPEEDITORDEST1);
+  float envelopeOneShot = filter->getParameter(ENVELOPEONESHOT);
+  float envelopeFixTempo = filter->getParameter(ENVELOPEFIXTEMPO);
+  float envelopeEditorAmount = filter->getParameter(ENVELOPEEDITORAMOUNT);
+  float envelopeEditorSpeed = filter->getParameter(ENVELOPEEDITORSPEED);
+  float envelopeEditorDest1 = filter->getParameter(ENVELOPEEDITORDEST1);
 
-    float tab1Open = filter->getParameter(TAB1OPEN);
-    float tab2Open = filter->getParameter(TAB2OPEN);
-    float tab3Open = filter->getParameter(TAB3OPEN);
-    float tab4Open = filter->getParameter(TAB4OPEN);
+  float tab1Open = filter->getParameter(TAB1OPEN);
+  float tab2Open = filter->getParameter(TAB2OPEN);
+  float tab3Open = filter->getParameter(TAB3OPEN);
+  float tab4Open = filter->getParameter(TAB4OPEN);
 
-    // ..release the lock ASAP
-    filter->getCallbackLock().exit();
+  // ..release the lock ASAP
+  filter->getCallbackLock().exit();
 
 	volumeKnob->setValue(volume, dontSendNotification);
 	cutoffKnob->setValue(cutoff, dontSendNotification);
@@ -681,7 +681,7 @@ void TalComponent::updateParametersFromFilter()
 	osc2VolumeKnob->setValue(osc2Volume, dontSendNotification);
 	osc3VolumeKnob->setValue(osc3Volume, dontSendNotification);
 	portamentoKnob->setValue(portamento, dontSendNotification);
-    ringmodulationKnob->setValue(ringmodulation, dontSendNotification);
+  ringmodulationKnob->setValue(ringmodulation, dontSendNotification);
 
 	oscMasterTuneKnob->setValue(oscMasterTune, dontSendNotification);
 	osc1TuneKnob->setValue(osc1Tune, dontSendNotification);
@@ -710,19 +710,19 @@ void TalComponent::updateParametersFromFilter()
 	freeAdDecayKnob->setValue(freeAdDecay, dontSendNotification);
 	freeAdAmountKnob->setValue(freeAdAmount, dontSendNotification);
 
-    velocityVolumeKnob->setValue(velocityVolume, dontSendNotification);
-    velocityContourKnob->setValue(velocityContour, dontSendNotification);
-    velocityCutoffKnob->setValue(velocityCutoff, dontSendNotification);
-    pitchwheelCutoffKnob->setValue(pitchwheelCutoff, dontSendNotification);
-    pitchwheelPitchKnob->setValue(pitchwheelPitch, dontSendNotification);
-    highpassKnob->setValue(highpass, dontSendNotification);
-    detuneKnob->setValue(detune, dontSendNotification);
-    vintageNoiseKnob->setValue(vintageNoise, dontSendNotification);
+  velocityVolumeKnob->setValue(velocityVolume, dontSendNotification);
+  velocityContourKnob->setValue(velocityContour, dontSendNotification);
+  velocityCutoffKnob->setValue(velocityCutoff, dontSendNotification);
+  pitchwheelCutoffKnob->setValue(pitchwheelCutoff, dontSendNotification);
+  pitchwheelPitchKnob->setValue(pitchwheelPitch, dontSendNotification);
+  highpassKnob->setValue(highpass, dontSendNotification);
+  detuneKnob->setValue(detune, dontSendNotification);
+  vintageNoiseKnob->setValue(vintageNoise, dontSendNotification);
 
-    oscBitcrusherKnob->setValue(oscBitcrusher, dontSendNotification);
-    envelopeEditorAmountKnob->setValue(envelopeEditorAmount, dontSendNotification);
+  oscBitcrusherKnob->setValue(oscBitcrusher, dontSendNotification);
+  envelopeEditorAmountKnob->setValue(envelopeEditorAmount, dontSendNotification);
 
-    filterDriveKnob->setValue(filterDrive, dontSendNotification);
+  filterDriveKnob->setValue(filterDrive, dontSendNotification);
 
 
 	// Buttons
@@ -745,22 +745,22 @@ void TalComponent::updateParametersFromFilter()
 	osc1WaveformTalComboBox->setNormalizedSelectedId(osc1Waveform);
 	osc2WaveformTalComboBox->setNormalizedSelectedId(osc2Waveform);
 
-    envelopeEditorSpeedTalComboBox->setNormalizedSelectedId(envelopeEditorSpeed);
-    envelopeEditorDest1TalComboBox->setNormalizedSelectedId(envelopeEditorDest1);
+  envelopeEditorSpeedTalComboBox->setNormalizedSelectedId(envelopeEditorSpeed);
+  envelopeEditorDest1TalComboBox->setNormalizedSelectedId(envelopeEditorDest1);
 
-    // Tabs
-    synth1AccordeonTab->setExpanded(tab1Open > 0);
-    synth2AccordeonTab->setExpanded(tab2Open > 0);
-    envelopeEditorAccordeonTab->setExpanded(tab3Open > 0);
-    controlAccordeonTab->setExpanded(tab4Open > 0);
+  // Tabs
+  synth1AccordeonTab->setExpanded(tab1Open > 0);
+  synth2AccordeonTab->setExpanded(tab2Open > 0);
+  envelopeEditorAccordeonTab->setExpanded(tab3Open > 0);
+  controlAccordeonTab->setExpanded(tab4Open > 0);
 
-    this->resized();
-    this->accordeonTabContainer->resizeTabs(false);
+  this->resized();
+  this->accordeonTabContainer->resizeTabs(false);
 
-    if (this->envelopeEditorView->envelopeIsDirty())
-    {
-        this->envelopeEditorView->repaint();
-    }
+  if (this->envelopeEditorView->envelopeIsDirty())
+  {
+      this->envelopeEditorView->repaint();
+  }
 }
 
 //==============================================================================

@@ -291,21 +291,6 @@ void TalCore::setParameter (int index, float newValue)
         case FILTERTYPE:
             engine->setFiltertype(newValue);
             break;
-        case ENVELOPEEDITORDEST1:
-            engine->setEnvelopeEditorDest1(newValue);
-            break;
-        case ENVELOPEEDITORSPEED:
-            engine->setEnvelopeEditorSpeed(newValue);
-            break;
-        case ENVELOPEEDITORAMOUNT:
-            engine->setEnvelopeEditorAmount(newValue);
-            break;
-        case ENVELOPEONESHOT:
-            engine->setEnvelopeEditorOneShot(newValue > 0.0f);
-            break;
-        case ENVELOPEFIXTEMPO:
-            engine->setEnvelopeEditorFixTempo(newValue > 0.0f);
-            break;
         case FILTERDRIVE:
             engine->setFilterDrive(newValue);
             break;
@@ -316,13 +301,6 @@ void TalCore::setParameter (int index, float newValue)
             for (int i = 0; i < this->numPrograms; i++)
             {
                 talPresets[i]->programData[index] = newValue;
-            }
-            break;
-        case ENVELOPERESET:
-            if (newValue > 0.0f)
-            {
-                this->getEnvelopeEditor()->initializePoints();
-                this->getEnvelopeEditor()->setDirty();
             }
             break;
         }
@@ -407,12 +385,6 @@ const String TalCore::getParameterName (int index)
 
 
     case OSCBITCRUSHER: return "oscbitcrusher";
-
-    case ENVELOPEEDITORDEST1: return "envelopeeditordest1";
-    case ENVELOPEEDITORSPEED: return "envelopeeditorspeed";
-    case ENVELOPEEDITORAMOUNT: return "envelopeeditoramount";
-    case ENVELOPEONESHOT: return "envelopeoneshot";
-    case ENVELOPEFIXTEMPO: return "envelopefixtempo";
 
     case VINTAGENOISE: return "vintagenoise";
 
@@ -511,12 +483,10 @@ void TalCore::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
         }
 
         this->engine->triggerLfoToHost((const float)this->bpm, (const float)pos.ppqPosition);
-        this->engine->setEnvelopeEditorBpm(pos);
     }
     else
     {
         this->bpm = 120.0f;
-        this->engine->setEnvelopeEditorBpm(this->bpm);
     }
 
     const ScopedLock sl (this->getCallbackLock());
@@ -772,19 +742,10 @@ void TalCore::getXmlPrograms(XmlElement *programList, int programNumber)
         program->setAttribute ("vintagenoise", talPresets[programNumber]->programData[VINTAGENOISE]);
         program->setAttribute ("ringmodulation", talPresets[programNumber]->programData[RINGMODULATION]);
 
-        program->setAttribute ("envelopeeditordest1", talPresets[programNumber]->programData[ENVELOPEEDITORDEST1]);
-        program->setAttribute ("envelopeeditorspeed", talPresets[programNumber]->programData[ENVELOPEEDITORSPEED]);
-        program->setAttribute ("envelopeeditoramount", talPresets[programNumber]->programData[ENVELOPEEDITORAMOUNT]);
-        program->setAttribute ("envelopeoneshot", talPresets[programNumber]->programData[ENVELOPEONESHOT]);
-        program->setAttribute ("envelopefixtempo", talPresets[programNumber]->programData[ENVELOPEFIXTEMPO]);
-
         program->setAttribute ("tab1open", talPresets[programNumber]->programData[TAB1OPEN]);
         program->setAttribute ("tab2open", talPresets[programNumber]->programData[TAB2OPEN]);
         program->setAttribute ("tab3open", talPresets[programNumber]->programData[TAB3OPEN]);
         program->setAttribute ("tab4open", talPresets[programNumber]->programData[TAB4OPEN]);
-
-        EnvelopePresetUtility utility;
-        utility.addEnvelopeDataToXml(talPresets[programNumber]->getPoints(), program);
 
         programList->addChildElement(program);
 }
@@ -877,12 +838,6 @@ void TalCore::setXmlPrograms(XmlElement* e, int programNumber, float version)
         talPresets[programNumber]->programData[TAB3OPEN] = (float) e->getDoubleAttribute ("tab3open", 0.0f);
         talPresets[programNumber]->programData[TAB4OPEN] = (float) e->getDoubleAttribute ("tab4open", 0.0f);
 
-        talPresets[programNumber]->programData[ENVELOPEEDITORDEST1] = (float) e->getDoubleAttribute ("envelopeeditordest1", 1.0f);
-        talPresets[programNumber]->programData[ENVELOPEEDITORSPEED] = (float) e->getDoubleAttribute ("envelopeeditorspeed", 1.0f);
-        talPresets[programNumber]->programData[ENVELOPEEDITORAMOUNT] = (float) e->getDoubleAttribute ("envelopeeditoramount", 0.0f);
-        talPresets[programNumber]->programData[ENVELOPEONESHOT] = (float) e->getDoubleAttribute ("envelopeoneshot", 0.0f);
-        talPresets[programNumber]->programData[ENVELOPEFIXTEMPO] = (float) e->getDoubleAttribute ("envelopefixtempo", 0.0f);
-
         // Preset compatibility
         if (version < 1.1f)
         {
@@ -932,8 +887,6 @@ void TalCore::setXmlPrograms(XmlElement* e, int programNumber, float version)
             talPresets[programNumber]->programData[FILTERTYPE] = audioUtils.calcComboBoxValueNormalized(talPresets[programNumber]->programData[FILTERTYPE], FILTERTYPE);
             talPresets[programNumber]->programData[OSC1WAVEFORM] = audioUtils.calcComboBoxValueNormalized(talPresets[programNumber]->programData[OSC1WAVEFORM], OSC1WAVEFORM);
             talPresets[programNumber]->programData[OSC2WAVEFORM] = audioUtils.calcComboBoxValueNormalized(talPresets[programNumber]->programData[OSC2WAVEFORM], OSC2WAVEFORM);
-            talPresets[programNumber]->programData[ENVELOPEEDITORDEST1] = audioUtils.calcComboBoxValueNormalized(talPresets[programNumber]->programData[ENVELOPEEDITORDEST1], ENVELOPEEDITORDEST1);
-            talPresets[programNumber]->programData[ENVELOPEEDITORSPEED] = audioUtils.calcComboBoxValueNormalized(talPresets[programNumber]->programData[ENVELOPEEDITORSPEED], ENVELOPEEDITORSPEED);
         }
 
         if (version < 1.7f)
@@ -942,10 +895,6 @@ void TalCore::setXmlPrograms(XmlElement* e, int programNumber, float version)
             int filtertypeOld = (int)floorf(talPresets[programNumber]->programData[FILTERTYPE] * (10 - 1.0f) + 1.0f + 0.5f);
             talPresets[programNumber]->programData[FILTERTYPE] = audioUtils.calcComboBoxValueNormalized(filtertypeOld, FILTERTYPE);
         }
-
-        EnvelopePresetUtility utility;
-        Array<SplinePoint*> splinePoints = utility.getEnvelopeFromXml(e);
-        talPresets[programNumber]->setPoints(splinePoints);
     }
 }
 
@@ -981,18 +930,12 @@ int TalCore::getCurrentProgram ()
     return curProgram;
 }
 
+//CHECK verschill als dit problemen geeft 
 void TalCore::setCurrentProgram (int index)
 {
     if (index < this->numPrograms)
     {
         curProgram = index;
-
-        // Envelope reset is always 0 while changing to the next program
-        // avoid reset while loading the next program.
-        talPresets[curProgram]->programData[ENVELOPERESET] = 0.0f;
-
-        // Load envelope stuff
-        this->engine->setPoints(talPresets[index]->getPoints());
 
         for (int i = 0; i < NUMPARAM; i++)
         {
@@ -1016,14 +959,4 @@ void TalCore::changeProgramName (int index, const String& newName)
 {
     if (index < this->numPrograms)
         talPresets[index]->name = newName;
-}
-
-EnvelopeEditor* TalCore::getEnvelopeEditor()
-{
-    return this->engine->getEnvelopeEditor();
-}
-
-void TalCore::envelopeChanged()
-{
-    this->talPresets[curProgram]->setPoints(this->engine->getEnvelopeEditor()->getPoints());
 }
