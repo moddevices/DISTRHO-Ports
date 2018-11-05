@@ -561,7 +561,8 @@ inline bool TalCore::getNextEvent(MidiBuffer::Iterator *midiIterator, const int 
 #if ! JUCE_AUDIOPROCESSOR_NO_GUI
 AudioProcessorEditor* TalCore::createEditor()
 {
-    return new TalComponent (this);
+    // return new TalComponent (this);
+    return 0;
 }
 #endif
 
@@ -930,7 +931,7 @@ int TalCore::getCurrentProgram ()
     return curProgram;
 }
 
-//CHECK verschill als dit problemen geeft 
+//CHECK verschill als dit problemen geeft
 void TalCore::setCurrentProgram (int index)
 {
     if (index < this->numPrograms)
