@@ -301,7 +301,7 @@ public:
         case LFO1DESTINATION: numItems = 8; break;
         case LFO2DESTINATION: numItems = 8; break;
         case FREEADDESTINATION: numItems = 6; break;
-        case FILTERTYPE: numItems = 12; break;
+        case FILTERTYPE: numItems = 11; break;
         case OSC1WAVEFORM: numItems = 3; break;
         case OSC2WAVEFORM: numItems = 5; break;
         }
