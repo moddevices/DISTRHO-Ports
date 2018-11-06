@@ -86,7 +86,6 @@ public:
 
 	void setNumberOfVoices(int numberOfVoices)
 	{
-		std::cout << "in setNumberOfVoices = " << numberOfVoices << std::endl;
 		this->numberOfVoices = numberOfVoices;
 		playingNotes.clear();
 	}
