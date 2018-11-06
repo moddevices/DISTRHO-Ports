@@ -118,7 +118,7 @@ public:
 		{
 			voices[i].setSampleRate(sr);
 		}
-		SetOversample(Oversample);
+		SetOversample();
 	}
 	void sustainOn()
 	{
@@ -306,27 +306,26 @@ public:
 			}
 		}
 	}
-	void SetOversample(bool over)
-	{
-		if(over==true)
-		{
-			mlfo.setSamlpeRate(sampleRate*2);
-			vibratoLfo.setSamlpeRate(sampleRate*2);
-		}
-		else
-		{
+	void SetOversample()
+	{	
+		// std::cout << "bool over = " << over << std::endl;
+
+		// if(over==true)
+		// {
+		// 	mlfo.setSamlpeRate(sampleRate*2);
+		// 	vibratoLfo.setSamlpeRate(sampleRate*2);
+		// }
+		// else
+		// {
 			mlfo.setSamlpeRate(sampleRate);
 			vibratoLfo.setSamlpeRate(sampleRate);
-		}
+		// }
 		for(int i = 0 ; i < MAX_VOICES;i++)
 		{
-			voices[i].setHQ(over);
-			if(over)
-				voices[i].setSampleRate(sampleRate*2);
-			else
-				voices[i].setSampleRate(sampleRate);
+			voices[i].setHQ(0);
+			voices[i].setSampleRate(sampleRate);
 		}
-		Oversample = over;
+		// Oversample = over;
 	}
 	inline float processSynthVoice(ObxdVoice& b,float lfoIn,float vibIn )
 	{

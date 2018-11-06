@@ -509,7 +509,7 @@ public:
 	}
 	void processOversampling(float param)
 	{
-		synth.SetOversample(param>0.5);
+		synth.SetOversample();
 	}
 	void processFilterEnvelopeAmt(float param)
 	{

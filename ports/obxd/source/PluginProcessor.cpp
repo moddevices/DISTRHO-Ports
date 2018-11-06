@@ -130,9 +130,6 @@ void ObxdAudioProcessor::setParameter (int index, float newValue)
 	case BANDPASS:
 		synth.processBandpassSw(newValue);
 		break;
-	case FILTER_WARM:
-		synth.processOversampling(newValue);
-		break;
 	case BENDOSC2:
 		synth.procPitchWheelOsc2Only(newValue);
 		break;
@@ -358,8 +355,6 @@ const String ObxdAudioProcessor::getParameterName (int index)
 		return S("VoiceCount");
 	case BANDPASS:
 		return S("BandpassBlend");
-	case FILTER_WARM:
-		return S("Filter_Warm");
 	case BENDRANGE:
 		return S("BendRange");
 	case BENDOSC2:

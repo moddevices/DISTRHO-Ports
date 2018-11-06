@@ -251,7 +251,6 @@ void ObxdAudioProcessorEditor::rebuildComponents()
 
 		filterBPBlendButton = addNormalTooglableButton(1082,162,ownerFilter,BANDPASS,"Bp");
 		fourPoleButton = addNormalTooglableButton(1127,162,ownerFilter,FOURPOLE,"24");
-		filterHQButton = addNormalTooglableButton(932,162,ownerFilter,FILTER_WARM,"HQ");
 
 		filterKeyFollowButton =  addNormalTooglableButton(887,162,ownerFilter,FLT_KF,"Key");
 		unisonButton = addNormalTooglableButton(205,162,ownerFilter,UNISON,"Uni");
@@ -363,7 +362,6 @@ void ObxdAudioProcessorEditor::rebuildComponents()
 
 		filterBPBlendButton = addNormalTooglableButtonClassic(697,110,ownerFilter,BANDPASS,"Bp");
 		fourPoleButton = addNormalTooglableButtonClassic(728,110,ownerFilter,FOURPOLE,"24");
-		filterHQButton = addNormalTooglableButtonClassic(604,110,ownerFilter,FILTER_WARM,"HQ");
 
 		filterKeyFollowButton =  addNormalTooglableButtonClassic(573,110,ownerFilter,FLT_KF,"Key");
 		unisonButton = addNormalTooglableButtonClassic(125,251,ownerFilter,UNISON,"Uni");
@@ -432,7 +430,6 @@ void ObxdAudioProcessorEditor::buttonClicked(Button * b)
 		handleBParam(filterKeyFollowButton,FLT_KF)
 		handleBParam(pitchQuantButton,OSCQuantize)
 		handleBParam(unisonButton,UNISON)
-		handleBParam(filterHQButton,FILTER_WARM)
 		handleBParam(filterBPBlendButton,BANDPASS)
 
 		handleBParam(lfoSinButton,LFOSINWAVE)
@@ -600,7 +597,6 @@ void ObxdAudioProcessorEditor::changeListenerCallback (ChangeBroadcaster* source
 		rn(envelopeDetuneKnob,ENVDER)
 		rn(portamentoDetuneKnob,PORTADER)
 
-		rn(filterHQButton,FILTER_WARM)
 		rn(filterBPBlendButton,BANDPASS)
 		rn(lfoSinButton,LFOSINWAVE)
 		rn(lfoSquareButton,LFOSQUAREWAVE)
