@@ -87,6 +87,14 @@ public:
 		// Filter based on the text "Non linear digital implementation of the moog ladder filter" by Antti Houvilainen
 		// Adopted from Csound code at http://www.kunstmusik.com/udo/cache/moogladder.udo
 
+	    //variables for storing ticks
+		uint32_t t1, t2;
+		//initialize the code
+    	benchF.initTicks();
+    	//----------------------------------------------//
+
+    	t1 = benchF.getTicks();
+
 		if (resonanceInOld != resonance)
 		{
 			resonanceInOld = resonance;
@@ -157,6 +165,10 @@ public:
 		float output = ci * inWithRes - c1 * at1 + c2 * at2 - c3 * at3 + c4 * at4; 
 
 		*input = output * (resonanceCorrPost + cutoffIn * resonance * 1.0f);
+
+		//end of benchMark test
+    	t2 = benchF.getTicks();
+    	benchF.writeTicks(t1, t2);
 	}
 
 	inline float tanhApp(const float x) 
