@@ -148,12 +148,6 @@ public:
         {
 		    interpolatorLinear->process4x(*input, upsampledValues);
 
-		    // static int previousFilterType = 20;
-
-		    // if(filtertype != previousFilterType){
-		    // 	std::cout << "filtertype = " << filtertype << std::endl;
-		    // 	previousFilterType = filtertype;
-		    // }
 		    
 		    // Do oversampled stuff here
 		    switch (filtertype)
@@ -188,12 +182,6 @@ public:
 			    filterHp24db->process(&upsampledValues[2], cutoff, resonance, false);
 			    filterHp24db->process(&upsampledValues[3], cutoff, resonance, false);
 			    break;
-		    // case 6:
-      //           filterBp24db->process(&upsampledValues[0], cutoff, resonance, true);
-			   //  filterBp24db->process(&upsampledValues[1], cutoff, resonance, false);
-			   //  filterBp24db->process(&upsampledValues[2], cutoff, resonance, false);
-			   //  filterBp24db->process(&upsampledValues[3], cutoff, resonance, false);
-			   //  break;
 		    case 6:
                 filterN24db->process(&upsampledValues[0], cutoff, resonance, true);
 			    filterN24db->process(&upsampledValues[1], cutoff, resonance, false);
