@@ -25,11 +25,14 @@
 #define __FilterBp24db_h_
 
 #include "OscNoise.h"
+#include "../benchMark.h"
 
 class FilterBp24db 
 {
 public:
 private:
+	BenchMark benchF = BenchMark("FilterBp24db");
+
 	float pi;
 	float v2, iv2;
 	float ay1, ay2, ay3, ay4, amf;
