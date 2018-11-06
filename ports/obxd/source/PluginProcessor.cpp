@@ -625,7 +625,6 @@ bool ObxdAudioProcessor::getNextEvent(MidiBuffer::Iterator* iter,const int sampl
 	{
 		midiMsg = nextMidi;
 		hasMidiMessage = iter->getNextEvent(nextMidi, midiEventPos);
-		std::cout << "MIDI-message" << std::endl;
 		return true;
 	}
 	return false;

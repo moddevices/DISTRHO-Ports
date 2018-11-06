@@ -143,6 +143,7 @@ public:
 		bool processed=false;
 		if (wasUni != uni)
 			unisonOn();
+		
 		if (uni)
 		{
 			if(!asPlayedMode)
@@ -157,7 +158,7 @@ public:
 					}
 				}
 				if(minmidi < noteNo)
-				{
+				{	
 					awaitingkeys[noteNo] = true;
 				}
 				else
@@ -201,11 +202,13 @@ public:
 			for (int i = 0; i < totalvc && !processed; i++)
 			{
 				ObxdVoice* p = vq.getNext();
+
 				if (!p->Active)
-				{
+				{	
+
 					p->NoteOn(noteNo,velocity);
 					processed = true;
-				}
+				} 
 			}
 		}
 		// if voice steal occured
@@ -225,15 +228,17 @@ public:
 						highestVoiceAvalible = p;
 					}
 				}
-				if(maxmidi < noteNo)
-				{
-					awaitingkeys[noteNo] = true;
-				}
-				else
-				{
+				//commented this part out because it was causing problems
+
+				// if(maxmidi < noteNo)
+				// {
+					// awaitingkeys[noteNo] = true;
+				// }
+				// else
+				// {	
 					highestVoiceAvalible->NoteOn(noteNo,-0.5);
 					awaitingkeys[maxmidi] = true;
-				}
+				// }
 			}
 			else
 			{
@@ -308,7 +313,7 @@ public:
 	}
 	void SetOversample()
 	{	
-		// std::cout << "bool over = " << over << std::endl;
+		//TODO remove oversampling parts
 
 		// if(over==true)
 		// {

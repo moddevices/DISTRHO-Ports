@@ -167,7 +167,6 @@ public:
 	void setVoiceCount(float param)
 	{
 		synth.setVoiceCount(roundToInt((param*3) +1));
-		std::cout << "number of voices = " << roundToInt((param*3)+1) << std::endl;
 	}
 	void procPitchWheelAmount(float param)
 	{
