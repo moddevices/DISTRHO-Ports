@@ -112,9 +112,11 @@ public:
 	{
 		synth.setNoteOff(noteNo);
 	}
-	void procEconomyMode(float val)
+	void procEconomyMode()
 	{
-		synth.economyMode = val>0.5;
+		// synth.economyMode = val>0.5;
+		//always in ecomoy mode 
+		synth.economyMode = 1;
 	}
 #define ForEachVoice(expr) \
 	for(int i = 0 ; i < synth.MAX_VOICES;i++) \
