@@ -23,12 +23,14 @@ function make_library_project(name)
   package.config["Release"].target       = project.name
   package.config["Release"].objdir       = "intermediate/Release"
   package.config["Release"].defines      = { "NDEBUG=1" }
-  package.config["Release"].buildoptions = { "-O3", "-fvisibility=hidden", "-fvisibility-inlines-hidden" }
+  package.config["Release"].buildoptions = { "-O3", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-D__MOD_DEVICES__", "-mcpu=cortex-a7", "-mtune=cortex-a7", "-mfpu=neon-vfpv4", "-mfloat-abi=hard", "-mvectorize-with-neon-quad",
+"-ffast-math", "-fno-finite-math-only", "-fprefetch-loop-arrays", "-funroll-loops", "-funsafe-loop-optimizations", "-isystem ${STAGING_DIR}/usr/include"}
 
   if (not (os.getenv("NOOPTIMIZATIONS") or os.getenv("LINUX_EMBED"))) then
     package.config["Release"].buildoptions = {
         package.config["Release"].buildoptions,
-        "-mtune=generic", "-msse", "-msse2"
+        "-msse", "-msse2", "-mcpu=cortex-a7", "-mtune=cortex-a7", "-mfpu=neon-vfpv4", "-mfloat-abi=hard", "-mvectorize-with-neon-quad",
+    "-ffast-math", "-fno-finite-math-only", "-fprefetch-loop-arrays", "-funroll-loops", "-funsafe-loop-optimizations"
     }
   end
 
