@@ -101,9 +101,9 @@ private:
 
 		switch (value)
 		{
-        case 1: waveform = Osc::SAW; break;
-        case 2: waveform = Osc::PULSE; break;
-        case 3: waveform = Osc::NOISE; break;
+        case 0: waveform = Osc::SAW; break;
+        case 1: waveform = Osc::PULSE; break;
+        case 2: waveform = Osc::NOISE; break;
         default: waveform = Osc::SAW;
 		}
 		return waveform;
@@ -115,11 +115,11 @@ private:
 
 		switch (value)
 		{
-        case 1: waveform = Osc::SAW; break;
-        case 2: waveform = Osc::PULSE; break;
-        case 3: waveform = Osc::TRIANGLE; break;
-        case 4: waveform = Osc::SIN; break;
-        case 5: waveform = Osc::NOISE; break;
+        case 0: waveform = Osc::SAW; break;
+        case 1: waveform = Osc::PULSE; break;
+        case 2: waveform = Osc::TRIANGLE; break;
+        case 3: waveform = Osc::SIN; break;
+        case 4: waveform = Osc::NOISE; break;
         default: waveform = Osc::SAW;
 		}
 		return waveform;
@@ -134,7 +134,7 @@ public:
 	void setNumberOfVoices(int numberOfVoices)
 	{
 		std::cout << "numberOfVoices in setNumber = " << numberOfVoices << std::endl;
-		// this->voiceManager->setNumberOfVoices(audioUtils.calcComboBoxValue(numberOfVoices, VOICES));
+		this->voiceManager->setNumberOfVoices(numberOfVoices);
 	}
 
 	void setNoteOn(int note, float velocity)
