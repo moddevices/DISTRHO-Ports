@@ -74,9 +74,9 @@ public:
         delete lfo;
     }
 
-    void setWaveform(float waveform)
+    void setWaveform(int waveformInt)
     {
-        int waveformInt = (int)(waveform * 5.000001f);
+        // int waveformInt = (int)(waveform * 5.000001f);
         switch (waveformInt)
         {
         case SIN: this->setWaveform(SIN); break;

@@ -131,9 +131,10 @@ public:
 		initialize(sampleRate);
 	}
 
-	void setNumberOfVoices(float numberOfVoices)
+	void setNumberOfVoices(int numberOfVoices)
 	{
-		this->voiceManager->setNumberOfVoices(audioUtils.calcComboBoxValue(numberOfVoices, VOICES));
+		std::cout << "numberOfVoices in setNumber = " << numberOfVoices << std::endl;
+		// this->voiceManager->setNumberOfVoices(audioUtils.calcComboBoxValue(numberOfVoices, VOICES));
 	}
 
 	void setNoteOn(int note, float velocity)
@@ -181,9 +182,10 @@ public:
 		}
 	}
 
-	void setOsc1Waveform(float value)
+	void setOsc1Waveform(int value)
 	{
-		Osc::Waveform waveform = getOsc1Waveform(audioUtils.calcComboBoxValue(value, OSC1WAVEFORM));
+		// Osc::Waveform waveform = getOsc1Waveform(audioUtils.calcComboBoxValue(value, OSC1WAVEFORM));
+		Osc::Waveform waveform = getOsc1Waveform(value);
 		SynthVoice** voices = voiceManager->getAllVoices();
 		for (int i = 0; i < voiceManager->MAX_VOICES; i++)
 		{
@@ -191,9 +193,10 @@ public:
 		}
 	}
 
-	void setOsc2Waveform(float value)
+	void setOsc2Waveform(int value)
 	{
-		Osc::Waveform waveform = getOsc2Waveform(audioUtils.calcComboBoxValue(value, OSC2WAVEFORM));
+		// Osc::Waveform waveform = getOsc2Waveform(audioUtils.calcComboBoxValue(value, OSC2WAVEFORM));
+		Osc::Waveform waveform = getOsc2Waveform(value);
 		SynthVoice** voices = voiceManager->getAllVoices();
 		for (int i = 0; i < voiceManager->MAX_VOICES; i++)
 		{
@@ -596,10 +599,12 @@ public:
         this->pitchwheelHandler->setAmount(value);
     }
 
-	void setLfo1Destination(float value)
+	void setLfo1Destination(int value)
 	{
-		int intValue = audioUtils.calcComboBoxValue(value, LFO1DESTINATION);
-		switch (intValue)
+		value = value + 1;
+
+		// int intValue = audioUtils.calcComboBoxValue(value, LFO1DESTINATION);
+		switch (value)
 		{
 		case 1:
 			lfoHandler1->setDestination(LfoHandler1::NOTHING);
@@ -628,10 +633,11 @@ public:
 		}
 	}
 
-	void setLfo2Destination(float value)
+	void setLfo2Destination(int value)
 	{
-		int intValue = audioUtils.calcComboBoxValue(value, LFO2DESTINATION);
-		switch (intValue)
+		value = value + 1;
+		// int intValue = audioUtils.calcComboBoxValue(value, LFO2DESTINATION);
+		switch (value)
 		{
 		case 1:
 			lfoHandler2->setDestination(LfoHandler2::NOTHING);
