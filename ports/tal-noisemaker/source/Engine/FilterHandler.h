@@ -134,10 +134,10 @@ public:
 
 		    switch (filtertype)
 		    {
-		    case 11:
+		    case 10:
                 this->filterMoog24->Process(input, cutoff, resonance, false, true);
                 break;
-		    case 12:
+		    case 11:
                 // this->filterMoog24->Process(input, cutoff, resonance, true, true);
                 break;
             }

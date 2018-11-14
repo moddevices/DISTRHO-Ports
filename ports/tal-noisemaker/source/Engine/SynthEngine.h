@@ -690,13 +690,13 @@ public:
 		}
 	}
 
-	void setFiltertype(float value)
+	void setFiltertype(int value)
 	{
-        int intValue = audioUtils.calcComboBoxValue(value, FILTERTYPE);
+        // int intValue = audioUtils.calcComboBoxValue(value, FILTERTYPE);
 		SynthVoice** voices = voiceManager->getAllVoices();
 		for (int i = 0; i < voiceManager->MAX_VOICES; i++)
 		{
-			voices[i]->setFiltertype(intValue);
+			voices[i]->setFiltertype(value);
 		}
 	}
 
