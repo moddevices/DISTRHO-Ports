@@ -41,16 +41,24 @@ private:
 
 	int state;
 	float actualValue;
-  float returnValue;
+  	float returnValue;
 
-  float realeaseDeclickerValue;
+  	float realeaseDeclickerValue;
+
+
+  	// int state;
+	float output = 0;
+	float attackRate = 0.0001;
+	float decayRate = -0.0001;
+	float releaseRate = -0.0001;
+	float sustainLevel = 0.8;
 
 public:
 	Adsr(float sampleRate)
 	{
 		state = 0;
 		actualValue = 0.0f;
-    returnValue = 0.0f;
+    	returnValue = 0.0f;
 
 		sampleRateFactor = 0.004f * 44100.0f / sampleRate;
 
@@ -65,6 +73,14 @@ public:
 
     realeaseDeclickerValue = 1.0f;
 	}
+
+ //    enum envState {
+ //        env_idle = 0,
+ //        env_attack,
+ //        env_decay,
+ //        env_sustain,
+ //        env_release
+	// };
 
 private:
 	float scaleValue(float value)
@@ -109,71 +125,60 @@ public:
 		this->release = this->scaleValue(value) * 8.0f;
 	}
 
-	inline float tick(bool noteOn)
+
+	inline float tick(bool noteOn) 
 	{
-		if (!noteOn && actualValue > 0.0f && state != 3)
+		// std::cout << "noteOn = " << noteOn << std::endl;
+
+		if (noteOn && output <= 0.0f && state !=0)
+		{
+			state = 0;
+		}
+
+		if (!noteOn && output > 0.0f && state != 3)
 		{
 			state = 3;
-            realeaseDeclickerValue = 1.0f;
+            // realeaseDeclickerValue = 1.0f;
 		}
-		if (!noteOn && actualValue <= 0.0f)
+		if (!noteOn && output <= 0.0f)
 		{
 			state = 4;
 		}
-		switch (state)
-		{
-		case 0:
-      actualValue += attack * sampleRateFactor * 200.0f * (1.04f + this->attackReal * 0.5f - actualValue);
 
-			if (actualValue > 1.0f)
-			{
-				actualValue = 1.0f;
-				state = 1;
-			}
+  		switch (state) {
+        	case 4:
+          	  break;
+          	case 0:
+              output = attackRate + output;
 
-      returnValue = actualValue;
-      break;
-		case 1:
-    	actualValue -= decay * (actualValue + sampleRateFactor);
-    	tmp = actualValue;
-
-			if (tmp <= sustainReal)
-			{
-				tmp = sustainReal;
-				state = 2;
-			}
-  		returnValue = tmp;
-    	break;
-    case 2:
-      actualValue = sustainReal;
-      returnValue = sustainReal;
-      break;
-		case 3:
-      realeaseDeclickerValue -= sampleRateFactor;
-
-      if (realeaseDeclickerValue <= 0.0f)
-      {
-          realeaseDeclickerValue = 0.0f;
-      }
-
-			actualValue -= release * ((actualValue + sampleRateFactor) * (1.0f - realeaseDeclickerValue));
-			if (actualValue < 0.0f)
-			{
-				actualValue = 0.0f;
-				state = 4;
-			}
-            returnValue = actualValue;
-            break;
-		case 4:
-			returnValue = actualValue = 0.0f;
-			break;
-		}
-		return returnValue;
+              if (output >= 1.0f) {
+                  output = 1.0f;
+                  state = 1;
+              }
+              break;
+          	case 1:
+              output = decayRate + output;
+              if (output <= sustainLevel) {
+                  output = sustainLevel;
+                  state = 2;
+              }
+              break;
+          	case 2:
+              break;
+          	case 3:
+              output = releaseRate + output;
+              if (output <= 0.0f) {
+                  output = 0.0f;
+                  state = 4;
+              }
+            }
+		return output;
 	}
 
 	bool isNotePlaying(bool noteOn)
 	{
-		return noteOn || actualValue > 0;
+		// return noteOn || actualValue > 0;
+		return noteOn || output > 0;
 	}
 
 	void resetState()
@@ -193,7 +198,70 @@ public:
 	void resetAll()
 	{
 		actualValue = 0.0f;
-		state = 0;
+		state = 4;
 	}
 };
 #endif
+
+
+// inline float tick(bool noteOn)
+// 	{
+// 		if (!noteOn && actualValue > 0.0f && state != 3)
+// 		{
+// 			state = 3;
+//             realeaseDeclickerValue = 1.0f;
+// 		}
+// 		if (!noteOn && actualValue <= 0.0f)
+// 		{
+// 			state = 4;
+// 		}
+// 		switch (state)
+// 		{
+// 		case 0:
+//       actualValue += attack * sampleRateFactor * 200.0f * (1.04f + this->attackReal * 0.5f - actualValue);
+
+// 			if (actualValue > 1.0f)
+// 			{
+// 				actualValue = 1.0f;
+// 				state = 1;
+// 			}
+
+//       returnValue = actualValue;
+//       break;
+// 		case 1:
+//     	actualValue -= decay * (actualValue + sampleRateFactor);
+//     	tmp = actualValue;
+
+// 			if (tmp <= sustainReal)
+// 			{
+// 				tmp = sustainReal;
+// 				state = 2;
+// 			}
+//   		returnValue = tmp;
+//     	break;
+//     case 2:
+//       actualValue = sustainReal;
+//       returnValue = sustainReal;
+//       break;
+// 		case 3:
+//       realeaseDeclickerValue -= sampleRateFactor;
+
+//       if (realeaseDeclickerValue <= 0.0f)
+//       {
+//           realeaseDeclickerValue = 0.0f;
+//       }
+
+// 			actualValue -= release * ((actualValue + sampleRateFactor) * (1.0f - realeaseDeclickerValue));
+// 			if (actualValue < 0.0f)
+// 			{
+// 				actualValue = 0.0f;
+// 				state = 4;
+// 			}
+//             returnValue = actualValue;
+//             break;
+// 		case 4:
+// 			returnValue = actualValue = 0.0f;
+// 			break;
+// 		}
+// 		return returnValue;
+// 	}
