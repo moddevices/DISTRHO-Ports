@@ -98,9 +98,10 @@ public:
 		delete[] upsampledValues;
 	}
 
-	void setFiltertype(float value)
+	void setFiltertype(int value)
 	{
-        this->filtertype = (int)value;
+        this->filtertype = value;
+        // std::cout << "filtertype = " << this->filtertype << std::endl;
 	}
 
     void setFilterDrive(float value)
