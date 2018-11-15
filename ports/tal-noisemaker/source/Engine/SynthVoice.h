@@ -509,20 +509,20 @@ public:
 			this->processFreeEnvelope();
 
 			float masterNote = this->portamento->tick((float)noteNumber, portamentoValue, portamentoMode > 0.5f);
-      masterNote += this->pitchwheelHandler->getPitch() + this->mastertune + this->transpose;
-      masterNote *= (this->detuneFactor * this->detune + 1.0f);
-      this->vco->process(&sample, masterNote);
+        	masterNote += this->pitchwheelHandler->getPitch() + this->mastertune + this->transpose;
+        	masterNote *= (this->detuneFactor * this->detune + 1.0f);
+	    	this->vco->process(&sample, masterNote);
 
-      // introduce vintage noise
-      if (this->vintageNoise > 0.0f)
-      {
-        sample += this->oscNoise->getNextSampleVintage() * this->vintageNoise * 0.2f;
-      }
+      	// introduce vintage noise
+      	// if (this->vintageNoise > 0.0f)
+      	// {
+      	//   sample += this->oscNoise->getNextSampleVintage() * this->vintageNoise * 0.2f;
+      	// }
 
 			this->processFilter(&sample, cutoff);
 			this->processAmp(&sample);
 
-      sample *= this->velocityHandler->getVolume(velocity);
+    		sample *= this->velocityHandler->getVolume(velocity);
 
 			*sampleL += sample;
 			*sampleR += sample;

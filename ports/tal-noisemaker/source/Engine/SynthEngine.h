@@ -761,7 +761,7 @@ public:
 			playingNotes |= voices[i]->process(sampleL, sampleR, cutoff);
 		}
 
-        highPass->tick(sampleL);
+        // highPass->tick(sampleL);
         *sampleR = *sampleL;
 
 		if (playingNotes)
