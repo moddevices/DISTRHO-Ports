@@ -64,7 +64,7 @@ TalCore::TalCore()
     // load factory presets
     // ProgramChunk chunk;
     // setStateInformationString(chunk.getXmlChunk());
-    setCurrentProgram(curProgram);
+    //setCurrentProgram(curProgram);
 
     nextMidiMessage = new MidiMessage(0xF0);
     midiMessage = new MidiMessage(0xF0);
