@@ -27,7 +27,6 @@
 enum SYNTHPARAMETERS
 {
 	// Controllable values [0.0..1.0]
-	UNUSED1= 0,
 	VOLUME,
 
   FILTERTYPE,
@@ -108,7 +107,6 @@ enum SYNTHPARAMETERS
   VINTAGENOISE,
 
   PANIC,
-  UNUSED2,
 
   TAB1OPEN,
   TAB2OPEN,
